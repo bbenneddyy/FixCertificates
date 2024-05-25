@@ -1,10 +1,10 @@
 import React from "react";
 
-const HomePage = () => {
+const APPPP = () => {
   return (
     <html>
       <body>
-      <h1>Welcome to My Website</h1>
+      <h1>APPPPPP</h1>
       <div className="content">
         <p>This is a paragraph within a div.</p>
       </div>
@@ -16,4 +16,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default APPPP;
