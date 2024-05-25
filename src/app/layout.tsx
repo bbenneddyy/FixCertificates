@@ -4,7 +4,7 @@ const HomePage = () => {
   return (
     <html>
       <body>
-      <h1>Welcome to My Website</h1>
+      <h1>failed to redirect</h1>
       <div className="content">
         <p>This is a paragraph within a div.</p>
       </div>

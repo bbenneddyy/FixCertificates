@@ -1,10 +1,10 @@
 import React from "react";
 
-const Welcome2 = () => {
+const WelcomeIndex = () => {
   return (
     <html>
       <body>
-      <h1>Welcome to My Website</h1>
+      <h1>Welcomeindex</h1>
       <div className="content">
         <p>This is a paragraph within a div.</p>
       </div>
@@ -16,4 +16,4 @@ const Welcome2 = () => {
   );
 };
 
-export default Welcome2;
+export default WelcomeIndex;
