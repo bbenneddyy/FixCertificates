@@ -44,6 +44,15 @@ export const config = {
       }
   })
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Redirect to /secretpage after login
+      if (url === '/api/auth/signin') {
+        return baseUrl;
+      }
+      return baseUrl;
+    },
+  },
 } satisfies NextAuthOptions;
 
 // Use it in server contexts
