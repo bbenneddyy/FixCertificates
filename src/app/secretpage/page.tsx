@@ -1,4 +1,4 @@
-export default function pppp() {
+export default function SecretPage() {
     return (
       <div className="text-5xl text-center text-purple-500 font-bold my-10 shadow-lg">
         this page should not be seen without login
