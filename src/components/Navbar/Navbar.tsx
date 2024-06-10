@@ -2,12 +2,16 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav>
-      <div>
-        <h1>เสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34</h1>
-      </div>
-      <Link href="/">Home</Link>
-      <Link href="/register">Register</Link>
-    </nav>
+    <header className="flex items-center px-8 py-10 space-x-16">
+      <h1 className="font-bold text-2xl">เสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34</h1>
+      <ul className="flex text-center space-x-6">
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
+          <Link href="/register">Register</Link>
+        </li>
+      </ul>
+    </header>
   );
 }
