@@ -3,9 +3,9 @@ import Navbar from "../components/Navbar/Navbar";
 export default function Home() {
   return (
     <>
-      <Navbar />
+        <Navbar />
       <div className="bg-white">
-        <div className="relative isolate px-6 pt-14 lg:px-8">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pt-14">
           <div
             className="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-20"
             aria-hidden="true"
@@ -20,7 +20,7 @@ export default function Home() {
             />
           </div>
           <div className="mx-auto max-w-3xl py-32 sm:py-48 lg:py-56">
-            <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+            <div className="mb-8 flex justify-center">
               <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                 <Link href="https://www.facebook.com/MDCUmedcamp" rel="noopener noreferrer" target="_blank" className="font-semibold text-green-600">
                   <span className="absolute inset-0" aria-hidden="true" />
@@ -33,7 +33,7 @@ export default function Home() {
                 เสวนาค่ายอยากเป็นหมอ
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-               กิจกรรมเสวนาจากรุ่นพี่คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัยให้นักเรียนมัธยมศึกษาและผู้ปกครอง
+                กิจกรรมเสวนาจากรุ่นพี่คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัยให้นักเรียนมัธยมศึกษาและผู้ปกครอง
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link href="/register" className="rounded-md bg-green-600 px-6 py-2.5 text-xl font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">สมัคร</Link>
