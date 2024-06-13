@@ -14,6 +14,9 @@ export default function Navbar() {
           <Link href="/register" className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out">สมัคร</Link>
         </li>
       </ul>
+      <div>
+        <Link href="/admin123" className="border-4 border-rose-700 p-2 rounded-lg bg-red-600 hover:border-slate-300 transition ease-in-out font-bold text-gray-50">ADMIN ONLY</Link>
+      </div>
     </header>
   );
 }
