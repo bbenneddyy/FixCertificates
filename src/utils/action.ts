@@ -1,6 +1,7 @@
 "use server";
-
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from 'next/cache';
+// import db from '../../prisma/'
+import prisma from './db';
 import { formSchema } from "./schema";
 
 // prevState is required. Please do not delete
@@ -25,6 +26,18 @@ export async function createParticipant(prevState: { message: string }, formData
   const data = parse.data;
   
   try {
+    await prisma.formSchema.create({
+      data: {
+        education: data.education,
+        title: data.title,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        phone: data.phone,
+        reason: data.reason,
+        slip: data.slip,
+      },
+    })
     // Save data to database and save file to volume here
     console.log(data);
     revalidatePath("/register");
