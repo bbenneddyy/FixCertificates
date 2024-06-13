@@ -17,6 +17,15 @@ export default function Navbar() {
       <div>
         <Link href="/admin123" className="border-4 border-rose-700 p-2 rounded-lg bg-red-600 hover:border-slate-300 transition ease-in-out font-bold text-gray-50">ADMIN ONLY</Link>
       </div>
+      <div className="flex-grow"></div>{" "}
+      <div className="ml-auto">
+        <Link
+          href="/admin123"
+          className="border-4 border-rose-700 p-2 rounded-lg bg-red-600 hover:border-slate-300 transition ease-in-out font-bold text-gray-50"
+        >
+          ADMIN ONLY
+        </Link>
+      </div>
     </header>
   );
 }
