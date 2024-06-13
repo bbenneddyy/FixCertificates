@@ -6,7 +6,7 @@ export default function Home() {
       <Navbar />
       <div className="bg-white">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pt-14 -z-10">
-          <div className="mx-auto max-w-3xl py-10 sm:py-10 lg:py-0">
+          <div className="mx-auto max-w-3xl py-10 sm:py-10 lg:py-10">
             <div className="mb-8 flex justify-center">
               <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
                 <Link
