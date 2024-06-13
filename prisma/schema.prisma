@@ -17,7 +17,7 @@ model User {
   password String
 }
 
-model FormSchema {
+model Registration {
   id        String  @id @default(cuid())
   education String
   title     String
@@ -26,4 +26,5 @@ model FormSchema {
   email     String  @unique
   phone     String
   reason    String?
+  status    String  @default("pending")
 }

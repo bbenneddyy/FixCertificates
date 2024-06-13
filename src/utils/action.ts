@@ -27,7 +27,7 @@ export async function createParticipant(prevState: { message: string }, formData
   
   try {
     console.log(data);
-    await prisma.formSchema.create({
+    await prisma.registration.create({
       data: {
         education: data.education,
         title: data.title,
