@@ -26,6 +26,7 @@ export async function createParticipant(prevState: { message: string }, formData
   const data = parse.data;
   
   try {
+    console.log(data);
     await prisma.formSchema.create({
       data: {
         education: data.education,
@@ -35,14 +36,15 @@ export async function createParticipant(prevState: { message: string }, formData
         email: data.email,
         phone: data.phone,
         reason: data.reason,
-        slip: data.slip,
       },
     })
+    
     // Save data to database and save file to volume here
     console.log(data);
-    revalidatePath("/register");
+    // revalidatePath("/register");
     return { message: `${data.email} สมัครสำเร็จ` };
   } catch (e) {
+    console.error(e);
     return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง" };
   }
 }
