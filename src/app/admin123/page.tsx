@@ -19,12 +19,12 @@ export default function Admin123() {
 
   useEffect(() => {
     async function fetchRegData() {
-      const response = await fetch("/api/registration");
+      const response = await fetch('/api/registration');
       if (response.ok) {
         const data: Registration[] = await response.json();
         setRegisdata(data);
       } else {
-        console.error("Error fetching data: " + response.status);
+          console.error("Error fetching data: " + response.status);
         // Handle the case where the response is not OK
       }
     }
