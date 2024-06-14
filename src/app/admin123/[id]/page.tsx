@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Registration {
+  registration: any;
   id: string;
   education: string;
   title: string;
