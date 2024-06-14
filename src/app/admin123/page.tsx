@@ -1,4 +1,5 @@
-'use client';
+"use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface Registration {
@@ -17,25 +18,29 @@ export default function Admin123() {
   const [regisdata, setRegisdata] = useState<Registration[]>([]);
 
   useEffect(() => {
-    async function fetchRegData() {const response = await fetch('/api/registration');
-    if (response.ok) {
-      const data: Registration[] = await response.json();
-      setRegisdata(data);
-    } else {
+    async function fetchRegData() {
+      const response = await fetch("/api/registration");
+      if (response.ok) {
+        const data: Registration[] = await response.json();
+        setRegisdata(data);
+      } else {
         console.error("Error fetching data: " + response.status);
-      // Handle the case where the response is not OK
-    }}
+        // Handle the case where the response is not OK
+      }
+    }
     fetchRegData();
   }, []);
 
   return (
     <div>
       {regisdata?.map((regdata) => (
-        <div className="py-1" key={regdata.id}>
-          <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
-            {regdata.firstname}
-          </p>
-        </div>
+        <Link href={`/admin123/${regdata.id}`} key={regdata.id}>
+          <div className="py-1">
+            <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
+              {regdata.firstname}
+            </p>
+          </div>
+        </Link>
       ))}
     </div>
   );

@@ -5,5 +5,4 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const regis = await prisma.registration.findMany();
-  return Response.json(regis)
-};
+  return Response.json(regis)};
