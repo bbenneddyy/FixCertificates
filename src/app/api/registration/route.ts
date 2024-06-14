@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getRegistration = async (req: NextApiRequest, res: NextApiResponse) => {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const regis = await prisma.registration.findMany();
-  return res.status(200).json(regis);
+  return Response.json(regis)
 };
