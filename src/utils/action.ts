@@ -62,7 +62,6 @@ export async function createParticipant(
   try {
     sendMail({
       to: `${data.email}`,
-      name: "Akukinaqua",
       subject: "Test MAil",
       body: `<h1>ส่งเมลเล่น</h1>`,
     });
