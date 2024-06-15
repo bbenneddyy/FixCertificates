@@ -6,7 +6,6 @@ export default function Register() {
     <>
       <Navbar />
       <RegisterationForm />
-      
     </>
   );
 }
