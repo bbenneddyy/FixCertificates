@@ -50,23 +50,23 @@ export async function createParticipant(
       path.join(process.cwd(), `public/assets/${content}`),
       buffer
     );
-  } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้" };
-    }
-    return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง" };
-  }
 
-  // Send Email
-  try {
     sendMail({
       to: `${data.email}`,
       subject: "Test MAil",
       body: `<h1>ส่งเมลเล่น</h1>`,
     });
+
     return { message: `${data.email} สมัครสำเร็จ` };
+
   } catch (e) {
     console.error(e);
-    return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง" };
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้" };
+    }
+    return {
+      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+    };
   }
+
 }
