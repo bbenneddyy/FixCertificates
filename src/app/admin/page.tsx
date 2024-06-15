@@ -14,7 +14,7 @@ interface Registration {
   status: string;
 }
 
-export default function Admin123() {
+export default function Admin() {
   const [regisdata, setRegisdata] = useState<Registration[]>([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Admin123() {
   return (
     <div>
       {regisdata?.map((regdata) => (
-        <Link href={`/admin123/${regdata.id}`} key={regdata.id}>
+        <Link href={`/admin/${regdata.id}`} key={regdata.id}>
           <div className="py-1">
             <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
               {regdata.firstname}
@@ -46,7 +46,7 @@ export default function Admin123() {
   );
 }
 
-// Admin123.getInitialProps = async () => {
+// admin.getInitialProps = async () => {
 //   const regis = await prisma.registration.findMany();
 //   console.log(regis); // Log regis here
 //   return { regis };
