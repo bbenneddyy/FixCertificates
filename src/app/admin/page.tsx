@@ -1,8 +1,8 @@
-"use client";
+import prisma from "@/utils/db";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense } from "react";
 
-interface Registration {
+interface IRegistration {
   id: string;
   education: string;
   title: string;
@@ -10,44 +10,30 @@ interface Registration {
   lastname: string;
   email: string;
   phone: string;
-  reason: string;
+  reason: string | null;
   status: string;
 }
 
-export default function Admin() {
-  const [regisdata, setRegisdata] = useState<Registration[]>([]);
+async function getRegistration(): Promise<IRegistration[]> {
+  const registrations = await prisma.registration.findMany();
+  return registrations
+}
 
-  useEffect(() => {
-    async function fetchRegData() {
-      const response = await fetch('/api/registration');
-      if (response.ok) {
-        const data: Registration[] = await response.json();
-        setRegisdata(data);
-      } else {
-          console.error("Error fetching data: " + response.status);
-        // Handle the case where the response is not OK
-      }
-    }
-    fetchRegData();
-  }, []);
-
+export default async function Admin() {
+  const regisData = await getRegistration()
   return (
     <div>
-      {regisdata?.map((regdata) => (
-        <Link href={`/admin/${regdata.id}`} key={regdata.id}>
-          <div className="py-1">
-            <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
-              {regdata.firstname}
-            </p>
-          </div>
-        </Link>
-      ))}
+      <Suspense fallback={<p>Loading...</p>}>
+        {regisData?.map((regis) => (
+          <Link href={`/admin/${regis.id}`} key={regis.id}>
+            <div className="py-1">
+              <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
+                {regis.firstname}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </Suspense>
     </div>
   );
 }
-
-// admin.getInitialProps = async () => {
-//   const regis = await prisma.registration.findMany();
-//   console.log(regis); // Log regis here
-//   return { regis };
-// };
