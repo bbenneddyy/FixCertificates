@@ -29,8 +29,7 @@ export async function createParticipant(
   const data = parse.data;
 
   try {
-    console.log(data);
-    await prisma.registration.create({
+    const newRegistration = await prisma.registration.create({
       data: {
         education: data.education,
         title: data.title,
@@ -42,18 +41,14 @@ export async function createParticipant(
       },
     });
 
-    // console.log(data)
+    const fileType = data.slip?.type.split("/")[1];
+    const content = `${newRegistration.id}.${fileType}`;
 
-    // Saving file
-    try {
-      const buffer = Buffer.from(await data.slip?.arrayBuffer());
-      await writeFile(
-        path.join(process.cwd(), "public/assets/" + "filename" + ".jpg"),
-        buffer
-      );
-    } catch (error) {
-      console.log("Error occured during saving file ", error);
-    }
+    const buffer = Buffer.from(await data.slip?.arrayBuffer());
+    await writeFile(
+      path.join(process.cwd(), `public/assets/${content}`),
+      buffer
+    );
   } catch (e) {
     console.error(e);
   }
