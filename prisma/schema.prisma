@@ -11,22 +11,20 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
-  name       String?
-  password   String
-  created_at DateTime @default(now())
+  id       String  @id @default(cuid())
+  email    String  @unique
+  name     String?
+  password String
 }
 
 model Registration {
-  id         String   @id @default(cuid())
-  education  String
-  title      String
-  firstname  String
-  lastname   String
-  email      String   @unique
-  phone      String
-  reason     String?
-  status     String   @default("pending")
-  created_at DateTime @default(now())
+  id        String  @id @default(cuid())
+  education String
+  title     String
+  firstname String
+  lastname  String
+  email     String  @unique
+  phone     String
+  reason    String?
+  status    String  @default("pending")
 }

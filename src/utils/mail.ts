@@ -1,12 +1,13 @@
 import nodemailer from "nodemailer";
 
-interface ISendMail {
+type NewType = {
   to: string;
+  name: string;
   subject: string;
   body: string;
-}
+};
 
-export async function sendMail({ to, subject, body }: ISendMail) {
+export async function sendMail({ to, name, subject, body }: NewType) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -19,21 +20,20 @@ export async function sendMail({ to, subject, body }: ISendMail) {
     },
   });
   try {
-    await transport.verify();
+    const testResult = await transport.verify();
   } catch (error) {
-    console.error("Unable to verify email ", error);
+    console.log(error);
     return;
   }
 
   try {
-    const result = await transport.sendMail({
+    const sendResult = await transport.sendMail({
       from: SMTP_EMAIL,
       to,
       subject,
       html: body,
     });
-    console.log("Email sent: ", result.response)
   } catch (error) {
-    console.error("Unable to send email ", error);
+    console.log(error);
   }
 }

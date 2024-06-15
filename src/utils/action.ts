@@ -1,9 +1,12 @@
 "use server";
+import { revalidatePath } from "next/cache";
+// import db from '../../prisma/'
 import prisma from "./db";
 import { formSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
-import path from "path";
+import path from 'path';
+
 
 // prevState is required. Please do not delete
 export async function createParticipant(
@@ -42,29 +45,32 @@ export async function createParticipant(
       },
     });
 
-    // console.log(data)
+    // Save data to database and save file to volume here
+    console.log(data);
+    try {
+      sendMail({
+        to: `${data.email}`,
+        name: "Akukinaqua",
+        subject: "Test MAil",
+        body: `<h1>ส่งเมลเล่น</h1>`,
+      });
+    } catch (e) {
+      console.error(e);
+    }
 
-    // Saving file
+    // revalidatePath("/register");
+    //logic in file saving
     try {
       const buffer = Buffer.from(await data.slip?.arrayBuffer());
       await writeFile(
-        path.join(process.cwd(), "public/assets/" + "filename" + ".jpg"),
+        path.join(process.cwd(), "public/assets/" + 'filename' +'.jpg'),
         buffer
       );
     } catch (error) {
-      console.log("Error occured during saving file ", error);
+      console.log("Error occured ", error);
     }
-  } catch (e) {
-    console.error(e);
-  }
+  
 
-  // Send Email
-  try {
-    sendMail({
-      to: `${data.email}`,
-      subject: "Test MAil",
-      body: `<h1>ส่งเมลเล่น</h1>`,
-    });
     return { message: `${data.email} สมัครสำเร็จ` };
   } catch (e) {
     console.error(e);
