@@ -44,9 +44,9 @@ import type {
       async redirect({ url, baseUrl }) {
         // Redirect to /secretpage after login
         if (url === '/api/auth/signin') {
-          return '/admin123';
+          return '/admin';
         }
-        return '/admin123';
+        return '/admin';
       },
     },
   } satisfies NextAuthOptions;
