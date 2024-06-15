@@ -4,6 +4,7 @@ import { formSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
+import { Prisma } from "@prisma/client";
 
 // prevState is required. Please do not delete
 export async function createParticipant(
@@ -50,7 +51,10 @@ export async function createParticipant(
       buffer
     );
   } catch (e) {
-    console.error(e);
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้" };
+    }
+    return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง" };
   }
 
   // Send Email
