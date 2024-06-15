@@ -3,15 +3,34 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="flex items-center px-8 space-x-6 bg-gray-100 z-20">
-      <Image src="/images/chulalogo.png" alt="Chula Logo" width={100} height= {150} />
-      <h1 className="font-bold text-2xl hidden md:block">เสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34</h1>
+    <header className="flex items-center justify-between px-8 space-x-6 bg-gray-100">
+      <Link className="flex items-center" href="/">
+          <Image
+            src="/images/chulalogo.png"
+            alt="Chula Logo"
+            width={50}
+            height={50}
+          />
+          <h1 className="font-bold text-xl mx-6 hidden md:block">
+            เสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34
+          </h1>
+      </Link>
       <ul className="flex text-center space-x-6">
         <li>
-          <Link href="/" className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out z-10">หน้าหลัก</Link>
+          <Link
+            href="/"
+            className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out z-10"
+          >
+            หน้าหลัก
+          </Link>
         </li>
         <li>
-          <Link href="/register" className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out z-10">สมัคร</Link>
+          <Link
+            href="/register"
+            className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out z-10"
+          >
+            สมัคร
+          </Link>
         </li>
       </ul>
     </header>
