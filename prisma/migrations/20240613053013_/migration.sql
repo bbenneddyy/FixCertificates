@@ -3,12 +3,11 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "email" TEXT NOT NULL,
     "name" TEXT,
-    "password" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "password" TEXT NOT NULL
 );
 
 -- CreateTable
-CREATE TABLE "Registration" (
+CREATE TABLE "FormSchema" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "education" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -16,13 +15,11 @@ CREATE TABLE "Registration" (
     "lastname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
-    "reason" TEXT,
-    "status" TEXT NOT NULL DEFAULT 'pending',
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "reason" TEXT
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Registration_email_key" ON "Registration"("email");
+CREATE UNIQUE INDEX "FormSchema_email_key" ON "FormSchema"("email");
