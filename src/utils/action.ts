@@ -77,3 +77,20 @@ export async function createParticipant(
     return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง" };
   }
 }
+
+export async function updateUser (id: string, status: string) {
+  try {
+    await prisma.registration.update({
+      where: {
+        id: id
+      },
+      data: {
+        status: status
+      }
+    });
+    return { message: "อัพเดทสถานะสำเร็จ" };
+  } catch (e) {
+    console.error(e);
+    return { message: "อัพเดทสถานะไม่สำเร็จ" };
+  }
+}

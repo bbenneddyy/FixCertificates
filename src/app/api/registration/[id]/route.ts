@@ -1,8 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/db/prisma';
 
-const prisma = new PrismaClient();
-
+// type Registration = {
+//     registration: any;
+//     id: string;
+//     education: string;
+//     title: string;
+//     firstname: string;
+//     lastname: string;
+//     email: string;
+//     phone: string;
+//     reason: string;
+//     status: string;
+//   }
 // export async function GET(
 //     req: NextApiRequest, res: NextApiResponse
 // ) {
@@ -16,7 +26,7 @@ const prisma = new PrismaClient();
 //         registration : userRegistration
 //     });
 // }
-export async function GET(
+export async function GET (
     request: Request,
     {params} : {params: {id: string}}
 ) {
@@ -31,6 +41,33 @@ export async function GET(
     });
 }
 
+export async function PATCH (
+    request: Request,
+    {params} : {params: {id: string, isValid: string}}
+) {
+    const body = await request.json();
+    const { status } = body;
+    
+    const id = status.id;
+    const valid = status.isValid;
+
+    await prisma.registration.update({
+        where: {
+            id: id
+        },
+        data: {
+            status: valid
+        }
+
+    })
+
+    
+    // const index = Registration.findIndex(
+    //     (registration) => registration.id === params.id 
+    // )
+    // Registration[index].status = status;
+    // return Response.json(Registration[index])
+}
 // export async function POST(
 //     request: Request,
 //     {params, body}: {params: {cuid: string}, body: any}
