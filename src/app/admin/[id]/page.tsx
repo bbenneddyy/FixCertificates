@@ -24,7 +24,6 @@ async function getRegisteredUser({ params }: { params: { id: string } }) {
         id: params.id,
       },
     });
-    console.log(registeredUser);
     return registeredUser;
   } catch (e) {
     return;
@@ -50,7 +49,6 @@ export default async function ApprovePage({
       </div>
     );
   }
-  console.log(registeredUser);
   return (
     <div>
       <AdminNavbar />

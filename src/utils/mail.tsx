@@ -35,7 +35,7 @@ export async function sendMail({ to, subject, name }: ISendMail) {
       subject,
       html: emailHtml,
     });
-    console.log("Email sent: ", result.response)
+    // console.log("Email sent: ", result.response)
   } catch (error) {
     console.error("Unable to send email ", error);
   }
