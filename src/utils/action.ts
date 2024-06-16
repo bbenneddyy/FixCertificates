@@ -1,4 +1,5 @@
 "use server";
+
 import prisma from "./db";
 import { formSchema } from "./schema";
 import { sendMail } from "./mail";
@@ -53,8 +54,8 @@ export async function createParticipant(
 
     sendMail({
       to: `${data.email}`,
-      subject: "Test MAil",
-      body: `<h1>ส่งเมลเล่น</h1>`,
+      subject: "ยืนยันการส่งข้อมูลเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
+      name: `${data.firstname}`,
     });
 
     return { message: `${data.email} สมัครสำเร็จ` };
