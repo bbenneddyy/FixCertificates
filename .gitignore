@@ -40,3 +40,4 @@ dev.db
 
 # Static
 /public/assets
+stack.env
