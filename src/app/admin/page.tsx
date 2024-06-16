@@ -1,5 +1,5 @@
 import AdminNavbar from "@/components/Navbar/AdminNavbar";
-import prisma from "@/utils/db";
+import { db } from "@/utils/db";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -16,15 +16,13 @@ interface IRegistration {
 }
 
 async function getRegistration(): Promise<IRegistration[]> {
-  const registrations = await prisma.registration.findMany(
-    {
-      orderBy: [
-        {
-          status: "asc",
-        },
-      ]
-    }
-  );
+  const registrations = await db.registration.findMany({
+    orderBy: [
+      {
+        status: "asc",
+      },
+    ],
+  });
   return registrations;
 }
 

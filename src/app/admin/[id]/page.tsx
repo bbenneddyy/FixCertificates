@@ -1,11 +1,11 @@
 import AdminNavbar from "@/components/Navbar/AdminNavbar";
-import prisma from "@/utils/db";
+import { db } from "@/utils/db";
 import { Suspense } from "react";
 import Image from "next/image";
 
 async function getRegisteredUser({ params }: { params: { id: string } }) {
   try {
-    const registeredUser = await prisma.registration.findUnique({
+    const registeredUser = await db.registration.findUnique({
       where: {
         id: params.id,
       },
