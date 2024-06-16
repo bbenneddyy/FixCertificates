@@ -1,11 +1,11 @@
 "use server";
 
-import prisma from "./db";
+import { db } from "@/utils/db";
 import { formSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
-import { Prisma } from "@prisma/client";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 // prevState is required. Please do not delete
 export async function createParticipant(
@@ -32,7 +32,7 @@ export async function createParticipant(
   const fileType = data.slip?.type.split("/")[1];
 
   try {
-    const newRegistration = await prisma.registration.create({
+    const newRegistration = await db.registration.create({
       data: {
         education: data.education,
         title: data.title,
@@ -63,7 +63,7 @@ export async function createParticipant(
 
   } catch (e) {
     console.error(e);
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+    if (e instanceof PrismaClientKnownRequestError) {
       return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้" };
     }
     return {
