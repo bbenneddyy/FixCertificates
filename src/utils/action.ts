@@ -29,6 +29,7 @@ export async function createParticipant(
   }
 
   const data = parse.data;
+  const fileType = data.slip?.type.split("/")[1];
 
   try {
     const newRegistration = await prisma.registration.create({
@@ -40,10 +41,10 @@ export async function createParticipant(
         email: data.email,
         phone: data.phone,
         reason: data.reason,
+        file_type: fileType
       },
     });
 
-    const fileType = data.slip?.type.split("/")[1];
     const content = `${newRegistration.id}.${fileType}`;
 
     const buffer = Buffer.from(await data.slip?.arrayBuffer());

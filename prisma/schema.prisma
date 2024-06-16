@@ -27,6 +27,8 @@ model Registration {
   email      String   @unique
   phone      String
   reason     String?
+  question   String?
   status     String   @default("pending")
   created_at DateTime @default(now())
+  file_type String?
 }
