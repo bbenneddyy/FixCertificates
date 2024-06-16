@@ -29,7 +29,7 @@ import type {
         /*this is where you need to retrieve user data 
         to verify with credential 
         Docs: https://next-auth.js.org/configuration/providers/credentials*/
-            const user = {id: "99", name: "test", password: "1234"}
+            const user = {id: "1", name: process.env.ADMIN_USER, password: process.env.ADMIN_PASSWORD}
             if (credentials?.username === user.name && credentials?.password === user.password) {
                 return user
             } else {
