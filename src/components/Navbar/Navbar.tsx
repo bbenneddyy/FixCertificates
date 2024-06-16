@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="flex items-center justify-between px-8 space-x-6 bg-gray-100">
+    <header className="flex items-center justify-between px-8 py-2 space-x-6 bg-gray-100">
       <Link className="flex items-center" href="/">
           <Image
             src="/images/chulalogo.png"

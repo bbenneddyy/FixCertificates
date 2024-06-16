@@ -1,3 +1,4 @@
+import AdminNavbar from "@/components/Navbar/AdminNavbar";
 import prisma from "@/utils/db";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -15,21 +16,33 @@ interface IRegistration {
 }
 
 async function getRegistration(): Promise<IRegistration[]> {
-  const registrations = await prisma.registration.findMany();
-  return registrations
+  const registrations = await prisma.registration.findMany(
+    {
+      orderBy: [
+        {
+          status: "asc",
+        },
+      ]
+    }
+  );
+  return registrations;
 }
 
 export default async function Admin() {
-  const regisData = await getRegistration()
+  const regisData = await getRegistration();
   return (
     <div>
+      <AdminNavbar />
       <Suspense fallback={<p>Loading...</p>}>
         {regisData?.map((regis) => (
-          <Link href={`/admin/${regis.id}`} key={regis.id}>
-            <div className="py-1">
-              <p className="py-2 border-2 rounded-md p-2 bg-slate-100">
-                {regis.firstname}
-              </p>
+          <Link
+            href={`/admin/${regis.id}`}
+            key={regis.id}
+            className="flex justify-center"
+          >
+            <div className="w-1/2 m-2 border-2 rounded-md p-2 bg-slate-100 flex justify-between">
+              <p>{regis.firstname}</p>
+              <p>{regis.status}</p>
             </div>
           </Link>
         ))}
