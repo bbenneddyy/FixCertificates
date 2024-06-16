@@ -39,7 +39,7 @@ import type {
     })
     ],
     callbacks: {
-      async redirect({ url, baseUrl }) {
+      async redirect({ url }) {
         // Redirect to /secretpage after login
         if (url === '/api/auth/signin') {
           return '/admin';

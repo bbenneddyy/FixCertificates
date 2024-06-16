@@ -6,8 +6,6 @@ services:
     image: converse-app
     pull_policy: build
     restart: always
-    # ports:
-    #   - 3000:3000
     env_file:
       - stack.env
     labels:
@@ -28,10 +26,3 @@ services:
         limits:
           cpus: '2'
           memory: 1G
-    # healthcheck:
-    #   test: [ "CMD", "curl", "-f", "http://localhost:3000/api/up" ]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
-    #   start_period: 30s
-    #   start_interval: 5s

@@ -1,21 +1,7 @@
 import AdminNavbar from "@/components/Navbar/AdminNavbar";
 import prisma from "@/utils/db";
-import Link from "next/link";
 import { Suspense } from "react";
 import Image from "next/image";
-
-interface Registration {
-  registration: any;
-  id: string;
-  education: string;
-  title: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  reason: string;
-  status: string;
-}
 
 async function getRegisteredUser({ params }: { params: { id: string } }) {
   try {

@@ -2,7 +2,6 @@
 
 import { createParticipant } from "@/utils/action";
 import { PhotoIcon } from "@heroicons/react/20/solid";
-
 import { useFormState, useFormStatus } from "react-dom";
 
 const initialState = {
