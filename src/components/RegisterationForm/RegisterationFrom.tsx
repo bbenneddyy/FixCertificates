@@ -2,7 +2,9 @@
 
 import { createParticipant } from "@/utils/action";
 import { PhotoIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import Image from "next/image";
 
 const initialState = {
   message: "",
@@ -24,6 +26,25 @@ function SubmitButton() {
 
 export default function RegisterationForm() {
   const [state, formAction] = useFormState(createParticipant, initialState);
+
+  const [selectedImage, setSelectedImage] = useState<File | undefined>()
+  const [preview, setPreview] = useState<string | undefined>()
+  function onSelectImage(e: any) {
+    console.log(e)
+    setSelectedImage(e.target.files[0])
+  }
+  useEffect(() => {
+    console.log(selectedImage)
+    if (!selectedImage) {
+      setPreview(undefined)
+      return
+    }
+    const objectUrl = URL.createObjectURL(selectedImage)
+    setPreview(objectUrl)
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [selectedImage])
   return (
     <form className="flex-col space-y-10 mx-auto py-9" action={formAction}>
       <div className="flex flex-col items-center space-y-3 rounded-lg shadow-sm">
@@ -130,14 +151,17 @@ export default function RegisterationForm() {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900"></label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
-                  <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                  {!preview && (<PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />)}
                   <div className="mt-4 flex text-sm leading-6 text-gray-600">
                     <label
                       htmlFor="slip"
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-green-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-green-600 focus-within:ring-offset-2 hover:text-green-500"
                     >
+                      {preview && (
+                        <Image src={preview} alt="Payment slip preview" width={400} height={400} className="mx-auto" />
+                      )}
                       <span>โปรดแนบหลักฐานการชำระเงิน</span>
-                      <input id="slip" name="slip" type="file" accept="image/*" className="sr-only" />
+                      <input id="slip" name="slip" type="file" accept="image/*" onChange={onSelectImage} className="sr-only" />
                     </label>
                   </div>
                   <p className="text-xs leading-5 text-gray-600">PNG หรือ JPG ไม่เกิน 2MB</p>

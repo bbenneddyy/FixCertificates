@@ -3,6 +3,8 @@ import { db } from "@/utils/db";
 import { Suspense } from "react";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 async function getRegisteredUser({ params }: { params: { id: string } }) {
   try {
     const registeredUser = await db.registration.findUnique({
@@ -58,13 +60,16 @@ export default async function ApprovePage({
               </p>
             </div>
             <div className="flex justify-center">
-              <Image
-                src={`/assets/${registeredUser.id}.${registeredUser.file_type}`}
-                alt="slip"
-                className="rounded-md shadow-md"
-                width={250}
-                height={250}
-              />
+              {registeredUser.id &&
+                <Image
+                  src={`/assets/${registeredUser.id}.${registeredUser.file_type}`}
+                  alt="slip"
+                  className="rounded-md shadow-md"
+                  width={250}
+                  height={250}
+                  unoptimized
+                />
+              }
             </div>
             <div className="flex justify-around mt-4">
               <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">

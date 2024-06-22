@@ -13,34 +13,36 @@ interface IConfirmationEmailProps {
   name: string
 }
 
+const baseUrl = process.env.NEXTAUTH_URL
+
 export function ConfirmationEmail(props: IConfirmationEmailProps) {
   return (
     <Html>
       <Head />
       <Preview>
-        The sales intelligence platform that helps you uncover qualified leads.
+        อีเมลยืนยันการส่งข้อมูลสมัครเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34
       </Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
-            src="/images/chulalogo.png"
+            src={`${baseUrl}/images/chulalogo.png`}
             alt="Chula Logo"
             width="50"
             height="50"
             style={logo}
           />
-          <Text style={paragraph}>Hi {props.name},</Text>
+          <Text style={paragraph}>เรียน คุณ{props.name}</Text>
           <Text style={paragraph}>
             กรุณารออีเมลยืนยันการตรวจสอบหลักฐานการโอน
           </Text>
           <Text style={paragraph}>
-            Best,
+            ขอแสดงความนับถือ
             <br />
-            The Koala team
+            สโมสรนิสิตคณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย
           </Text>
           <Hr style={hr} />
           <Text style={footer}>
-          คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย 1873 ถนนพระราม4 แขวงปทุมวัน เขตปทุมวัน กรุงเทพฯ 10330
+            คณะแพทยศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย 1873 ถนนพระราม4 แขวงปทุมวัน เขตปทุมวัน กรุงเทพฯ 10330
           </Text>
         </Container>
       </Body>

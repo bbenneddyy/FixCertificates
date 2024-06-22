@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navbar from "../components/Navbar/Navbar";
+import { webStatus } from "@/utils/config";
 export default function Home() {
   return (
     <>
@@ -31,9 +32,9 @@ export default function Home() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link
                   href="/register"
-                  className="rounded-md bg-green-600 px-6 py-2.5 text-xl font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                  className={webStatus === "open" ? "rounded-md bg-green-600 px-6 py-2.5 text-xl font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" : "rounded-md bg-slate-200 px-6 py-2.5 text-xl text-gray-300 font-semibold pointer-events-none"}
                 >
-                  สมัคร
+                  {webStatus === "open" ? 'สมัคร' : 'ปิดรับสมัคร'}
                 </Link>
               </div>
             </div>

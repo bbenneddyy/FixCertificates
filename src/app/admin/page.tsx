@@ -3,6 +3,8 @@ import { db } from "@/utils/db";
 import Link from "next/link";
 import { Suspense } from "react";
 
+export const dynamic = 'force-dynamic'
+
 interface IRegistration {
   id: string;
   education: string;

@@ -6,12 +6,19 @@ import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { webStatus } from "./config";
 
 // prevState is required. Please do not delete
 export async function createParticipant(
   prevState: { message: string },
   formData: FormData
 ) {
+
+  // Close registration
+  if (webStatus !== "open") {
+    return { message: "ปิดรับสมัครแล้ว" };
+  }
+  
   // Parse data
   const parse = formSchema.safeParse({
     education: formData.get("education"),

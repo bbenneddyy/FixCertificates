@@ -24,14 +24,6 @@ export default function AdminNavbar() {
             ผู้สมัครทั้งหมด
           </Link>
         </li>
-        <li>
-          <Link
-            href="/admin"
-            className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition hidden sm:block"
-          >
-            Dashboard
-          </Link>
-        </li>
       </ul>
     </header>
   );
