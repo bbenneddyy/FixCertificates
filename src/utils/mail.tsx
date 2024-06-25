@@ -30,7 +30,7 @@ export async function sendMail({ to, subject, name }: ISendMail) {
   try {
     const emailHtml = render(<ConfirmationEmail name={name} />);
     const result = await transport.sendMail({
-      from: SMTP_EMAIL,
+      from: `MDCU Converse <${SMTP_EMAIL}>`,
       to,
       subject,
       html: emailHtml,

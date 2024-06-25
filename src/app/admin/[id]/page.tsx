@@ -1,45 +1,37 @@
-import AdminNavbar from "@/components/Navbar/AdminNavbar";
 import { db } from "@/utils/db";
 import { Suspense } from "react";
 import Image from "next/image";
+import UpdateStatusButtons from "@/components/Buttons/UpdateStatusButtons";
 
 export const dynamic = "force-dynamic";
 
-async function getRegisteredUser({ params }: { params: { id: string } }) {
+async function getRegisteredUser(id: string) {
   try {
     const registeredUser = await db.registration.findUnique({
       where: {
-        id: params.id,
+        id,
       },
     });
     return registeredUser;
   } catch (e) {
-    return;
+    return null;
   }
 }
 
-export default async function ApprovePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const registeredUser = await getRegisteredUser({ params: { id: params.id } });
+export default async function ApprovePage({ params }: { params: { id: string }; }) {
+  const registeredUser = await getRegisteredUser(params.id);
   if (!registeredUser) {
     return (
       <div>
-        <AdminNavbar />
-        <Suspense fallback={<p>Loading...</p>}>
-          <p className="text-center p-2 m-2">
-            ไม่พบข้อมูล หรือ เกิดข้อผิดพลาดในการทำงาน
-          </p>
-          <p className="text-center font-bold">404 not found</p>
-        </Suspense>
+        <p className="text-center p-2 m-2">
+          ไม่พบข้อมูล หรือ เกิดข้อผิดพลาดในการทำงาน
+        </p>
+        <p className="text-center font-bold">404 not found</p>
       </div>
     );
   }
   return (
     <div>
-      <AdminNavbar />
       <Suspense fallback={<p>Loading...</p>}>
         <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-16">
           <div className="w-full max-w-md m-4 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
@@ -72,12 +64,7 @@ export default async function ApprovePage({
               }
             </div>
             <div className="flex justify-around mt-4">
-              <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">
-                Reject
-              </button>
-              <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
-                Accept
-              </button>
+              <UpdateStatusButtons id={params.id} />
             </div>
           </div>
         </div>
