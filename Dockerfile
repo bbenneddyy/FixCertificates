@@ -51,10 +51,10 @@ COPY --from=builder --chown=nextjs:nodejs --chmod=700 /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
 # Install prisma for migration
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    apk add --no-cache bash && \
-    VERSION=$(node -e 'console.log(require("./package.json").devDependencies.prisma)') && \
-    pnpm add prisma@$VERSION
+# RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+#     apk add --no-cache bash && \
+#     VERSION=$(node -e 'console.log(require("./package.json").devDependencies.prisma)') && \
+#     pnpm add prisma@$VERSION
 
 USER nextjs
 
@@ -64,4 +64,4 @@ ENV PORT 3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD pnpm exec prisma migrate deploy && HOSTNAME="0.0.0.0" node server.js
+CMD npx exec prisma migrate deploy && HOSTNAME="0.0.0.0" node server.js
