@@ -11,7 +11,7 @@ import { webStatus } from "./config";
 // Create Participant
 // prevState is required. Please do not delete
 export async function createParticipant(
-  prevState: { message: string, status: number },
+  prevState: { message: string; status: number },
   formData: FormData
 ) {
   // Close registration
@@ -38,7 +38,10 @@ export async function createParticipant(
   });
 
   if (!parse.success) {
-    return { message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง", status: 500};
+    return {
+      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+      status: 500,
+    };
   }
 
   const data = parse.data;
@@ -55,7 +58,16 @@ export async function createParticipant(
         phone: data.phone,
         reason: data.reason,
         file_type: fileType,
-        // still need to handle question one to six
+        questions: {
+          create: [
+            { sessionNum: 1, question: data.sessionOne || "" },
+            { sessionNum: 2, question: data.sessionTwo || "" },
+            { sessionNum: 3, question: data.sessionThree || "" },
+            { sessionNum: 4, question: data.sessionFour || "" },
+            { sessionNum: 5, question: data.sessionFive || "" },
+            { sessionNum: 6, question: data.sessionSix || "" },
+          ],
+        },
       },
     });
 
@@ -73,14 +85,18 @@ export async function createParticipant(
       name: `${data.firstname}`,
     });
 
-    return { message: `${data.firstname} ${data.lastname} (${data.email})`, status: 200 };
+    return {
+      message: `${data.firstname} ${data.lastname} (${data.email})`,
+      status: 200,
+    };
   } catch (e) {
     console.error(e);
     if (e instanceof PrismaClientKnownRequestError) {
-      return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้", status: 400};
+      return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้", status: 400 };
     }
     return {
-      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง", status: 400
+      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+      status: 400,
     };
   }
 }
@@ -101,7 +117,7 @@ export async function updateRegistrationStatus(id: string, status: string) {
 
 // Update user's information
 export async function updateUserInformation(
-  prevState: { message: string, status: number },
+  prevState: { message: string; status: number },
   formData: FormData
 ) {
   // Parse data
@@ -120,7 +136,7 @@ export async function updateUserInformation(
   const data = parse.data;
   try {
     const edituser = await db.registration.update({
-      where:{ id: data.id },
+      where: { id: data.id },
       data: {
         education: data.education,
         title: data.title,
