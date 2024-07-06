@@ -32,6 +32,16 @@ export default function RegistrationForm() {
   const [preview, setPreview] = useState<string | undefined>();
   const router = useRouter();
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || !state.message) return;
+    const scrollToError = () => {
+      const errorStateText = document.getElementById("state");
+      if (!errorStateText) return;
+      errorStateText.scrollIntoView({ behavior: 'smooth' });
+    };
+    window.requestAnimationFrame(scrollToError);
+  }, [state.message]);
+
   function onSelectImage(e: any) {
     console.log(e);
     setSelectedImage(e.target.files[0]);
@@ -361,7 +371,7 @@ export default function RegistrationForm() {
                 </div>
                 <SubmitButton />
               </div>
-              <p className="text-center text-red-500">{state?.message}</p>
+              <p id="state" className="text-center text-red-500">{state?.message}</p>
             </div>
           </div>
         </form>
