@@ -1,8 +1,9 @@
 import fs from 'fs/promises';
+import { NextRequest } from 'next/server';
 import path from 'path';
 
-export async function GET({ params }: { params: { user: string } }) {
-  const user = params.user;
+export async function GET(req: NextRequest) {
+  const user = req.url.split('/').pop()
   
   if (user && user.length) {
     const publicDir = path.join(process.cwd(), 'assets');
