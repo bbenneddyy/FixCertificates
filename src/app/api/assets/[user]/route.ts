@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       const data = await fs.readFile(filePath);
       return new Response(data, { status: 200 });
     } catch (error) {
-      return new Response(JSON.stringify({ error: error }), { status: 404 });
+      return new Response(JSON.stringify({ error: error }), { status: 400 });
     }
   } else {
     return new Response(JSON.stringify({ error: "No user" }), { status: 400 });
