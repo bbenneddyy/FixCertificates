@@ -19,6 +19,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json /app
 COPY . .
+RUN mkdir -p /app/assets
 
 # Generates prisma files for linting
 
@@ -46,7 +47,8 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs --chmod=700 /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/assets ./assets
+
 # Copies prisma files for linting
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 

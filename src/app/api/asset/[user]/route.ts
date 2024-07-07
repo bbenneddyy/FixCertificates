@@ -1,11 +1,11 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-export async function GET(request: Request, { params }: { params: { user: string } }) {
+export async function GET({ params }: { params: { user: string } }) {
   const user = params.user;
   
   if (user && user.length) {
-    const publicDir = path.join(process.cwd(), 'public/assets');
+    const publicDir = path.join(process.cwd(), 'assets');
     const fileUrl = user;
     const filePath = path.join(publicDir, fileUrl);
 

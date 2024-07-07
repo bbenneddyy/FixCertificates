@@ -75,7 +75,7 @@ export async function createParticipant(
 
     const buffer = Buffer.from(await data.slip?.arrayBuffer());
     await writeFile(
-      path.join(process.cwd(), `public/assets/${content}`),
+      path.join(process.cwd(), `asset/${content}`),
       buffer
     );
 

@@ -38,6 +38,6 @@ next-env.d.ts
 # database
 dev.db
 
-# Static
-/public/assets
+# static
 stack.env
+/assets/*
