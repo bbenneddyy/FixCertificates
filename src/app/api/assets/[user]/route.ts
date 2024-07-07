@@ -1,8 +1,7 @@
 import fs from 'fs/promises';
-import { NextRequest } from 'next/server';
 import path from 'path';
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   const user = req.url.split('/').pop()
   
   if (user && user.length) {
