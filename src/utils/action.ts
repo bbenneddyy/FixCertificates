@@ -116,13 +116,14 @@ export async function updateRegistrationStatus(id: string, status: string) {
 }
 
 // Update user's information
+// prevState is required. Please do not delete
 export async function updateUserInformation(
   prevState: { message: string; status: number },
   formData: FormData
 ) {
   // Parse data
   const parse = editFormSchema.safeParse({
-    id: formData.get("id"),
+    id: formData.get("userId"),
     education: formData.get("education"),
     title: formData.get("title"),
     firstname: formData.get("firstname"),

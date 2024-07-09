@@ -127,7 +127,7 @@ export default function EditInfoForm({ id, registeredUser }: IEditInfo) {
                         </div>
                         <SubmitButton />
                     </div>
-                    <p className="text-center text-red-500">{state?.message}</p>
+                    <p className={`text-center ${state?.status === 200 ? 'text-green-600' : 'text-red-500'}`}>{state?.message}</p>
                 </div>
             </div>
         </form>
