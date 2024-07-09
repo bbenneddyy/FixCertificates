@@ -54,7 +54,7 @@ export default async function ApprovePage({ params }: { params: { id: string }; 
             <div className="flex justify-center">
               {registeredUser.id &&
                 <Image
-                  src={`/api/assets/${registeredUser.id}.${registeredUser.file_type}`}
+                  src={`/api/images/${registeredUser.id}.${registeredUser.file_type}`}
                   alt="slip"
                   className="rounded-md shadow-md"
                   width={250}
