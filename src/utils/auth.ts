@@ -17,12 +17,12 @@ import type {
             username: { 
                 label: "Username", 
                 type: "text", 
-                placeholder: "your-user-name" 
+                placeholder: "username" 
             },
             password: {
                 label: "Password",
                 type: "password",
-                placeholder: "your-password"
+                placeholder: "password"
             }
         },
         async authorize(credentials) {
