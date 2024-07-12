@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar/Navbar";
+import Link from "next/link";
 
-export default function VideoPlayer() {
+export default function VideoPlaylist() {
   return (
     <>
       <Navbar />
@@ -8,13 +9,14 @@ export default function VideoPlayer() {
       <div>
         <div className=" text-white text-center text-xl bg-slate-500">
           <div>วันที่ 31 กมภา 25xx</div>
-          <div>Please click at .......</div>
+          <div className="">Please click at .......</div>
         </div>
         <div>
-          <div className="px-6">
-            <h1>ชื่อหัวข้อ</h1>
-            <h1>เวลา</h1>
-          </div>
+          <Link className="flex px-20 font-bold hover:text-green-500 text-green-600" href="/VideoPage">
+            แพทย์...ทางเลือกที่ใช่?
+            <br />
+            เวลา
+          </Link>
         </div>
       </div>
     </>

@@ -41,3 +41,10 @@ dev.db
 # static
 stack.env
 /assets/*
+
+# next-video
+video/*
+!video/*.json
+!video/*.js
+!video/*.ts
+public/_next-video
