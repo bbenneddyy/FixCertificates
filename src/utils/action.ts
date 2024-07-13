@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/utils/db";
-import { editFormSchema, submitFormSchema } from "./schema";
+import { LoginFormSchema , editFormSchema, submitFormSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
@@ -74,10 +74,7 @@ export async function createParticipant(
     const content = `${newRegistration.id}.${fileType}`;
 
     const buffer = Buffer.from(await data.slip?.arrayBuffer());
-    await writeFile(
-      path.join(process.cwd(), `assets/${content}`),
-      buffer
-    );
+    await writeFile(path.join(process.cwd(), `assets/${content}`), buffer);
 
     sendMail({
       to: `${data.email}`,
@@ -160,4 +157,67 @@ export async function updateUserInformation(
     }
     return { message: "แก้ไขไม่สำเร็จ กรุณาตรวจสอบข้อมูล", status: 400 };
   }
+}
+
+export async function UserLogin(
+  prevState: { message: string; status: number },
+
+  formData: FormData
+) {
+  interface IRegistration {
+    id: string;
+    education: string;
+    title: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    phone: string;
+    reason: string | null;
+    status: string;
+  }
+
+  const parse = LoginFormSchema.safeParse({
+    email: formData.get("email"),
+
+    phone: formData.get("phone"),
+  });
+
+  if (!parse.success) {
+    return { message: "parse failed", status: 500 };
+  }
+
+  const data = parse.data;
+
+  async function getRegistration(): Promise<IRegistration[]> {
+    const registrations = await db.registration.findMany({
+      where: { phone: data.phone },
+    });
+
+    return registrations;
+  }
+
+  const participant = await getRegistration();
+
+  console.log("console", participant);
+
+  console.log("phone", data.phone);
+
+  console.log("email", data.email);
+
+  console.log("found user", participant.length);
+
+  //const CorrectParticipant = participant.find(participant => participant.phone === data.phone && participant.email === data.email);
+
+  if (participant.length === 0) {
+    return { message: "no user with that phone number", status: 400 };
+  }
+
+  if (participant.length === 1 && data.email === participant[0].email) {
+    return { message: "login success", status: 200 };
+  }
+
+  if (participant.length === 1 && data.email !== participant[0].email) {
+    return { message: "wrong email or phone number", status: 400 };
+  }
+  return { message: "login failed", status: 400 };
 }

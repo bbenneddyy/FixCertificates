@@ -48,3 +48,15 @@ video/*
 !video/*.js
 !video/*.ts
 public/_next-video
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/dev.db-journal
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/migrations/20240713100025_asdasd/migration.sql
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/migrations/20240623044221_initial_migration/migration.sql
+prisma/migrations/migration_lock.toml
+/prisma/migrations
+/prisma/migrations
+prisma/migrations/migration_lock.toml

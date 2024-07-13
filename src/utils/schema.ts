@@ -60,3 +60,13 @@ export const editFormSchema = z.object({
     message: "กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง",
   }),
 });
+
+
+export const LoginFormSchema = z.object({
+  email: z.string().trim().email({
+    message: "กรุณากรอกอีเมลที่ถูกต้อง",
+  }),
+  phone: z.string().regex(/^\d{9,10}$/, {
+    message: "กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง",
+  }),
+});
