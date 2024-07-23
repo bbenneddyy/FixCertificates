@@ -2,6 +2,7 @@
 
 import { UserLogin } from "@/utils/action";
 import { useFormState, useFormStatus } from "react-dom";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const prevState = {
     message: "",
@@ -22,16 +23,15 @@ function SubmitButton() {
 }
 
 export default function UserLoginForm(){
-    
-    const [state, formAction] = useFormState(UserLogin, prevState);
-
+  const navigate = useNavigate(); // Initialize useNavigate
+  const [state, formAction] = useFormState(UserLogin, prevState);
+  if (state?.status === 200) {
+    navigate('/VideoPlaylist'); // Redirect to /VideoPlaylist
+    return null; // Prevent rendering anything else
+}
     return (
+      
         <>
-      {state?.status === 200 ? (
-        <div className="flex flex-col items-center mt-24">
-           login success
-        </div>
-      ) : (
         <div className="flex justify-center items-center h-screen bg-emerald-700">
         <div className="w-1/2">
         <div className="bg-gray-700 p-4 rounded-lg shadow-lg">
@@ -50,7 +50,6 @@ export default function UserLoginForm(){
     </div>
     </div>
     </div>
-      )}
     </>
   );
 }

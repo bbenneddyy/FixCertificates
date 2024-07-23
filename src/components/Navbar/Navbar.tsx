@@ -35,6 +35,14 @@ export default function Navbar() {
             </Link>
           </li>
         }
+        <li>
+          <Link
+            href="/login"
+            className="border-4 p-2 rounded-lg bg-gray-200 hover:border-slate-300 transition ease-in-out z-10"
+          >
+            login
+          </Link>
+        </li>
       </ul>
     </header>
   );
