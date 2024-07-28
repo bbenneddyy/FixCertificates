@@ -13,6 +13,7 @@
     "@prisma/client": "^5.16.1",
     "@react-email/components": "0.0.19",
     "@react-email/render": "^0.0.15",
+    "@vimeo/player": "^2.23.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "next-video": "^1.1.1",
@@ -23,6 +24,7 @@
     "react-router-dom": "^6.24.1",
     "sharp": "^0.33.4",
     "swiper": "^11.1.5",
+    "vimeo": "^2.3.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
