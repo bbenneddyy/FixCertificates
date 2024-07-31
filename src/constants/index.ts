@@ -1,54 +1,46 @@
-import {
-    RxCrop,
-    RxDesktop,
-    RxPencil2,
-    RxReader,
-    RxRocket,
-    RxAccessibility,
-  } from "react-icons/rx";
-  
-  import SpaceCity1 from "/public/images/placeholder.jpg";
-  import SpaceCity5 from "/public/images/placeholder.jpg";
-  import SpaceCity6 from "/public/images/placeholder.jpg";
-  import SpaceCity7 from "/public/images/placeholder.jpg";
-  import SpaceCity8 from "/public/images/placeholder.jpg";
-  import SpaceCity9 from "/public/images/placeholder.jpg";
+
+  // import TestImage1 from "/public/images/placeholder.jpg";
+  // import TestImage2 from "/public/images/placeholder.jpg";
+  // import TestImage3 from "/public/images/it logo.png";
+  // import TestImage4 from "/public/images/placeholder.jpg";
+  // import TestImage5 from "/public/images/placeholder.jpg";
+  // import TestImage6 from "/public/images/placeholder.jpg"
   
   export const SampleSlider = [
     {
-      icon: RxCrop,
-      title: "Development",
+      title: "Part 1",
       content: "Lorem ipsum dolor sit /amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity9,
+      backgroundImage: "/images/placeholder.jpg",
+      video: "/videos/testvideo.mp4"
     },
     {
-      icon: RxPencil2,
-      title: "Branding",
+      title: "Part 2",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity1,
+      backgroundImage: "/images/it logo.png",
+      video: "/videos/testvideo.mp4"
     },
     {
-      icon: RxDesktop,
-      title: "Design",
+      title: "Part 3",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity6,
+      backgroundImage: "/images/placeholder.jpg",
+      video: "/videos/testvideo.mp4"
     },
     {
-      icon: RxReader,
-      title: "Seo",
+      title: "Part 4",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity7,
+      backgroundImage: "/images/placeholder.jpg",
+      video: "/videos/testvideo.mp4"
     },
     {
-      icon: RxAccessibility,
-      title: "Management",
+      title: "Part 5",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity5,
+      backgroundImage: "/images/placeholder.jpg",
+      video: "/videos/testvideo.mp4"
     },
     {
-      icon: RxRocket,
-      title: "Production",
+      title: "Part 6",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      backgroundImage: SpaceCity8,
+      backgroundImage: "/images/it logo.png",
+      video: "/videos/testvideo.mp4"
     },
   ];

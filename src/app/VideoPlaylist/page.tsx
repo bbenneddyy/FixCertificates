@@ -19,7 +19,7 @@ export default function VideoPlaylist() {
           </Link>
         </div>
       </div>
-      <iframe src="https://player.vimeo.com/video/991156993?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"  ></iframe>
+      <iframe src="https://player.vimeo.com/video/991156993?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" width="640" height="360" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"  ></iframe>
       
     </>
   );
