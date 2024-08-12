@@ -20,7 +20,7 @@ export function ConfirmationEmail(props: IConfirmationEmailProps) {
     <Html>
       <Head />
       <Preview>
-        อีเมลยืนยันการส่งข้อมูลสมัครเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34
+        ยืนยันการส่งข้อมูลเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34
       </Preview>
       <Body style={main}>
         <Container style={container}>
@@ -33,7 +33,7 @@ export function ConfirmationEmail(props: IConfirmationEmailProps) {
           />
           <Text style={paragraph}>เรียน คุณ{props.name}</Text>
           <Text style={paragraph}>
-            กรุณารออีเมลยืนยันการตรวจสอบหลักฐานการโอน
+            ทางนิสิตผู้จัดงานขอขอบคุณที่ท่านได้สมัครเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34 ประจำปีการศึกษา 2567 โดยทางทีมงาน ขอความร่วมมือกรุณารออีเมลยืนยันการตรวจสอบหลักฐานการชำระเงิน และจะส่งอีเมลยืนยันไปให้ท่านอีกครั้งหนึ่ง
           </Text>
           <Text style={paragraph}>
             ขอแสดงความนับถือ
