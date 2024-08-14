@@ -209,15 +209,19 @@ export async function UserLogin(
   //const CorrectParticipant = participant.find(participant => participant.phone === data.phone && participant.email === data.email);
 
   if (participant.length === 0) {
-    return { message: "no user with that phone number", status: 400 };
+    return { message: "no user with that phone number", status: 400 , user: "" };
   }
 
   if (participant.length === 1 && data.email === participant[0].email) {
-    return { message: "login success", status: 200 };
+    return {
+      message: "login success",
+      status: 200,
+      user: participant[0], // Return user details
+    };
   }
 
   if (participant.length === 1 && data.email !== participant[0].email) {
-    return { message: "wrong email or phone number", status: 400 };
+    return { message: "wrong email or phone number", status: 400 , user: "" };
   }
-  return { message: "login failed", status: 400 };
+  return { message: "login failed", status: 400 , user: ""  };
 }

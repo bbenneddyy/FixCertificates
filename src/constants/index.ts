@@ -17,7 +17,7 @@
       title: "Part 2",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       backgroundImage: "/images/it logo.png",
-      video: "/videos/testvideo.mp4"
+      video: "/videos/randomvid.mp4"
     },
     {
       title: "Part 3",

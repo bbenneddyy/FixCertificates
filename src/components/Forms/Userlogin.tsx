@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 const prevState = {
     message: "",
     status: 0,
+    user: "",
 }
 
 function SubmitButton() {
@@ -26,7 +27,9 @@ export default function UserLoginForm(){
   const navigate = useNavigate(); // Initialize useNavigate
   const [state, formAction] = useFormState(UserLogin, prevState);
   if (state?.status === 200) {
-    navigate('/VideoPlaylist'); // Redirect to /VideoPlaylist
+    localStorage.setItem('user', JSON.stringify(state.user)); // Store user data
+    navigate('/testpage');
+    window.location.reload() // Redirect to /VideoPlaylist
     return null; // Prevent rendering anything else
 }
     return (
