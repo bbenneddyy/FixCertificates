@@ -208,6 +208,41 @@ export default function RegistrationForm() {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-full">
+                  <label
+                    htmlFor="allergy"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    สิ่งที่แพ้ (อาหาร ยา หรือ อื่นๆ)
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="allergy"
+                      name="allergy"
+                      type="text"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="place"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                  ประเภทการสมัคร
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id="place"
+                      name="place"
+                      autoComplete="place-level"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    >
+                      <option>Onsite ค่าสมัคร 1000 บาท</option>
+                      <option>Online ค่าสมัคร 400 บาท</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="col-span-full">
                   <label
                     htmlFor="reason"

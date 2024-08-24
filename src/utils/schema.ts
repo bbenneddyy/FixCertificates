@@ -23,6 +23,8 @@ export const submitFormSchema = z.object({
   phone: z.string().regex(/^\d{9,10}$/, {
     message: "กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง",
   }),
+  allergy: z.string().optional().or(z.literal("")),
+  place: z.string().min(1),
   reason: z.string().optional().or(z.literal("")),
   slip: z
     .any()

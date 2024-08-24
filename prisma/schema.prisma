@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,18 +23,20 @@ model Registration {
   lastname   String
   email      String     @unique
   phone      String
+  allergy    String?
+  place      String
   reason     String?
-  questions  Question[]
   status     String     @default("pending")
   created_at DateTime   @default(now())
   file_type  String?
+  questions  Question[]
 }
 
 model Question {
   id            Int          @id @default(autoincrement())
-  participant   Registration @relation(fields: [participantId], references: [id])
   participantId String
   sessionNum    Int
   question      String
   created_at    DateTime     @default(now())
+  participant   Registration @relation(fields: [participantId], references: [id])
 }
