@@ -28,7 +28,7 @@ export default function UserLoginForm(){
   const [state, formAction] = useFormState(UserLogin, prevState);
   if (state?.status === 200) {
     localStorage.setItem('user', JSON.stringify(state.user)); // Store user data
-    navigate('/testpage');
+    navigate('/Videoplaylist');
     window.location.reload() // Redirect to /VideoPlaylist
     return null; // Prevent rendering anything else
 }
