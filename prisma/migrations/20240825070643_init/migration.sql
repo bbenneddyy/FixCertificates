@@ -16,10 +16,18 @@ CREATE TABLE "Registration" (
     "lastname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
+    "allergy" TEXT,
+    "place" TEXT NOT NULL,
     "reason" TEXT,
     "status" TEXT NOT NULL DEFAULT 'pending',
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "file_type" TEXT
+    "file_type" TEXT,
+    "sessionOne" TEXT,
+    "sessionTwo" TEXT,
+    "sessionThree" TEXT,
+    "sessionFour" TEXT,
+    "sessionFive" TEXT,
+    "sessionSix" TEXT
 );
 
 -- CreateTable

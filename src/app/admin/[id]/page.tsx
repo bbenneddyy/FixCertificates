@@ -18,8 +18,39 @@ async function getRegisteredUser(id: string) {
   }
 }
 
-export default async function ApprovePage({ params }: { params: { id: string }; }) {
+async function getUserAnswers(id: string) {
+  try {
+    const answers = await db.question.findMany({
+      where: {
+        participantId: id,
+      },
+      orderBy: {
+        sessionNum: "asc", // Order by session number
+      },
+    });
+    return answers;
+  } catch (e) {
+    console.error("Error fetching user answers:", e);
+    return [];
+  }
+}
+
+const sessionQuestions: { [key: string]: string } = {
+  "1": "แพทย์...ทางเลือกที่ใช่?",
+  "2": "ตีแผ่ชีวิต Preclinical clerkship",
+  "3": "ตีแผ่ชีวิตแพทย์",
+  "4": "หลักสูตรการเรียนแพทย์",
+  "5": "การเตรียมตัวสอบเข้าคณะแพทย์",
+  "6": "จัดการความเครียดกับการอ่านหนังสือ",
+};
+
+export default async function ApprovePage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const registeredUser = await getRegisteredUser(params.id);
+  const userAnswers = await getUserAnswers(params.id);
   if (!registeredUser) {
     return (
       <div>
@@ -52,7 +83,7 @@ export default async function ApprovePage({ params }: { params: { id: string }; 
               </p>
             </div>
             <div className="flex justify-center">
-              {registeredUser.id &&
+              {registeredUser.id && (
                 <Image
                   src={`/assets/${registeredUser.id}.${registeredUser.file_type}`}
                   alt="slip"
@@ -61,10 +92,48 @@ export default async function ApprovePage({ params }: { params: { id: string }; 
                   height={250}
                   unoptimized
                 />
-              }
+              )}
             </div>
             <div className="flex justify-around mt-4">
               <UpdateStatusButtons id={params.id} />
+            </div>
+            <div className="mt-6 text-gray-600">
+              <p className="mb-2">
+                <strong>สิ่งที่แพ้:</strong>{" "}
+                <span id="allergy">
+                  {registeredUser.allergy ? registeredUser.allergy : "-"}
+                </span>
+              </p>
+
+              <p className="mb-2">
+                <strong>ประเภทการสมัคร:</strong>{" "}
+                <span id="place">{registeredUser.place}</span>
+              </p>
+              <p className="mb-2">
+                <strong>เหตุผลที่อยากเข้าร่วม:</strong>{" "}
+                <span id="reason">
+                  {registeredUser.reason ? registeredUser.reason : "-"}
+                </span>
+              </p>
+              <div className="mt-6">
+                <h2 className="font-bold text-xl text-gray-800 mb-4">
+                  คำถามในแต่ละ session
+                </h2>
+                {userAnswers.length === 0 ? (
+                  <p>ไม่มีคำถาม</p>
+                ) : (
+                  userAnswers.map((answer) => (
+                    <div key={answer.id} className="mb-4">
+                      <p className="mb-1">
+                        <strong>
+                          {sessionQuestions[answer.sessionNum.toString()]}:
+                        </strong>{" "}
+                        {answer.question}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>
