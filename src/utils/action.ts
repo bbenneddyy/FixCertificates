@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/utils/db";
-import { editFormSchema, submitFormSchema } from "./schema";
+import { LoginFormSchema , editFormSchema, submitFormSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
@@ -20,13 +20,19 @@ export async function createParticipant(
   }
 
   // Parse data
+  // remove dash before phone validation
+  var phone = formData.get("phone");
+  var newPhone = phone?.toString().replaceAll("-","");
+  
   const parse = submitFormSchema.safeParse({
     education: formData.get("education"),
     title: formData.get("title"),
     firstname: formData.get("firstname"),
     lastname: formData.get("lastname"),
     email: formData.get("email"),
-    phone: formData.get("phone"),
+    phone: newPhone,
+    allergy: formData.get("allergy"),    
+    place: formData.get("place"),
     reason: formData.get("reason") || "",
     slip: formData.get("slip") as File,
     sessionOne: formData.get("sessionOne"),
@@ -36,13 +42,13 @@ export async function createParticipant(
     sessionFive: formData.get("sessionFive"),
     sessionSix: formData.get("sessionSix"),
   });
-
   if (!parse.success) {
     return {
       message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
       status: 500,
     };
   }
+  
 
   const data = parse.data;
   const fileType = data.slip?.type.split("/")[1];
@@ -56,6 +62,8 @@ export async function createParticipant(
         lastname: data.lastname,
         email: data.email,
         phone: data.phone,
+        allergy: data.allergy,
+        place: data.place,
         reason: data.reason,
         file_type: fileType,
         questions: {
@@ -74,10 +82,7 @@ export async function createParticipant(
     const content = `${newRegistration.id}.${fileType}`;
 
     const buffer = Buffer.from(await data.slip?.arrayBuffer());
-    await writeFile(
-      path.join(process.cwd(), `assets/${content}`),
-      buffer
-    );
+    await writeFile(path.join(process.cwd(), `assets/${content}`), buffer);
 
     sendMail({
       to: `${data.email}`,
@@ -160,4 +165,71 @@ export async function updateUserInformation(
     }
     return { message: "แก้ไขไม่สำเร็จ กรุณาตรวจสอบข้อมูล", status: 400 };
   }
+}
+
+export async function UserLogin(
+  prevState: { message: string; status: number },
+
+  formData: FormData
+) {
+  interface IRegistration {
+    id: string;
+    education: string;
+    title: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    phone: string;
+    reason: string | null;
+    status: string;
+  }
+
+  const parse = LoginFormSchema.safeParse({
+    email: formData.get("email"),
+
+    phone: formData.get("phone"),
+  });
+
+  if (!parse.success) {
+    return { message: "parse failed", status: 500 };
+  }
+
+  const data = parse.data;
+
+  async function getRegistration(): Promise<IRegistration[]> {
+    const registrations = await db.registration.findMany({
+      where: { phone: data.phone },
+    });
+
+    return registrations;
+  }
+
+  const participant = await getRegistration();
+
+  console.log("console", participant);
+
+  console.log("phone", data.phone);
+
+  console.log("email", data.email);
+
+  console.log("found user", participant.length);
+
+  //const CorrectParticipant = participant.find(participant => participant.phone === data.phone && participant.email === data.email);
+
+  if (participant.length === 0) {
+    return { message: "no user with that phone number", status: 400 , user: "" };
+  }
+
+  if (participant.length === 1 && data.email === participant[0].email) {
+    return {
+      message: "login success",
+      status: 200,
+      user: participant[0], // Return user details
+    };
+  }
+
+  if (participant.length === 1 && data.email !== participant[0].email) {
+    return { message: "wrong email or phone number", status: 400 , user: "" };
+  }
+  return { message: "login failed", status: 400 , user: ""  };
 }
