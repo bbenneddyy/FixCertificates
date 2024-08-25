@@ -173,15 +173,8 @@ export async function UserLogin(
   formData: FormData
 ) {
   interface IRegistration {
-    id: string;
-    education: string;
-    title: string;
-    firstname: string;
-    lastname: string;
     email: string;
     phone: string;
-    reason: string | null;
-    status: string;
   }
 
   const parse = LoginFormSchema.safeParse({
