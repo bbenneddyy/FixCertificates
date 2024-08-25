@@ -1,5 +1,4 @@
 import { db } from "@/utils/db";
-import { Suspense } from "react";
 import Image from "next/image";
 import UpdateStatusButtons from "@/components/Buttons/UpdateStatusButtons";
 
