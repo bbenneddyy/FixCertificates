@@ -14,6 +14,9 @@ export async function getParticipantData() {
         firstname: true,
         lastname: true,
         email: true,
+        phone: true,
+        education: true,
+        reason: true,
       },
     });
     return participantData;
