@@ -6,6 +6,9 @@ import { db } from "./db";
 export async function getParticipantData() {
   try {
     const participantData = await db.registration.findMany({
+      where: {
+        status: "accepted",
+      },
       select: {
         title: true,
         firstname: true,

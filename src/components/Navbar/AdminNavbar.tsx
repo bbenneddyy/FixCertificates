@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import SignOutButton from "../Buttons/SignOutButton";
 
 export default function AdminNavbar() {
   return (
@@ -23,6 +24,9 @@ export default function AdminNavbar() {
           >
             ผู้สมัครทั้งหมด
           </Link>
+        </li>
+        <li>
+          <SignOutButton />
         </li>
       </ul>
     </header>
