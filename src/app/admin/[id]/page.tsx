@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react'; // Import Suspense from React
 import { db } from "@/utils/db";
 import Image from "next/image";
 import UpdateStatusButtons from "@/components/Buttons/UpdateStatusButtons";
