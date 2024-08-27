@@ -5,10 +5,11 @@ import { render } from '@react-email/render';
 interface ISendMail {
   to: string;
   subject: string;
-  name: string;
+  firstname: string;
+  lastname: string
 }
 
-export async function sendMail({ to, subject, name }: ISendMail) {
+export async function sendMail({ to, subject, firstname, lastname }: ISendMail) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -28,7 +29,7 @@ export async function sendMail({ to, subject, name }: ISendMail) {
   }
 
   try {
-    const emailHtml = render(<ConfirmationEmail name={name} />);
+    const emailHtml = render(<ConfirmationEmail firstname={firstname} lastname={lastname} />);
     const result = await transport.sendMail({
       from: `MDCU Converse <${SMTP_EMAIL}>`,
       to,

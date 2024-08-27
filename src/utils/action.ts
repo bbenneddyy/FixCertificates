@@ -87,7 +87,8 @@ export async function createParticipant(
     sendMail({
       to: `${data.email}`,
       subject: "ยืนยันการส่งข้อมูลเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
-      name: `${data.firstname}`,
+      firstname: `${data.firstname}`,
+      lastname: `${data.lastname}`
     });
 
     return {
