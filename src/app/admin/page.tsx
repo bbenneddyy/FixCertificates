@@ -2,6 +2,7 @@ import FilterParticipantsControl from "@/components/FilterParticipants/FilterPar
 import FilterParticipantsList from "@/components/FilterParticipants/FilterParticipantList";
 import FilterParticipantsPage from "@/components/FilterParticipants/FilterParticipantsPage";
 
+
 export default async function Admin({
   searchParams,
 }: {

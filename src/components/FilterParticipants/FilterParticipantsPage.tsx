@@ -4,7 +4,12 @@ import { db } from "@/utils/db";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Registration } from "@prisma/client";
-
+interface FilterParticipantsPageProps {
+  currentPage: number; // Define currentPage prop
+  pageSize: number; // Define pageSize prop
+  query: string; // Define query prop
+  status: string; // Define status prop
+}
 // Fetch participants with pagination
 async function getParticipants(page: number, limit: number) {
   try {
@@ -30,35 +35,53 @@ async function getParticipants(page: number, limit: number) {
     return { participants: [], count: 0 };
   }
 }
+// interface Participant {
+//   id: string;
+//   education: string;
+//   title: string;
+//   firstname: string;
+//   lastname: string;
+//   email: string;
+//   phone: string;
+//   allergy: string | null;
+//   place: string;
+//   reason: string | null;
+//   status: string;
+//   created_at: Date;
+//   file_type: string | null;
+// }
 
-export default function FilterParticipantsPage() {
+export default function FilterParticipantsPage({
+  currentPage,
+  pageSize,
+  query,
+  status,
+}: FilterParticipantsPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [participants, setParticipants] = useState<Registration[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 2; // Number of participants per page
+  const limit = pageSize; // Use pageSize from props
 
   useEffect(() => {
+    console.log("useEffect triggered"); // Debug log
     async function fetchData() {
       try {
-        const page = parseInt(searchParams.get("page") || "1", 10);
-        console.log("Fetching data for page:", page);
+        console.log("Fetching data for page:", currentPage);
 
-        const { participants, count } = await getParticipants(page, limit);
+        const { participants, count } = await getParticipants(currentPage, limit);
 
         setParticipants(participants);
         setTotalCount(count);
-        setCurrentPage(page);
 
-        console.log("Fetched data:", { page, participants, count });
+        console.log("Fetched data:", { currentPage, participants, count });
       } catch (error) {
         console.error("Error in fetchData:", error);
       }
     }
     fetchData();
-  }, [searchParams]);
+  }, [currentPage, query, status, limit]); // Add dependencies
 
   // Calculate total pages based on total count and limit
   const totalPages = Math.max(1, Math.ceil(totalCount / limit));
