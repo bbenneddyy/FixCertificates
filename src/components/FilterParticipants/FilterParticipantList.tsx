@@ -15,19 +15,28 @@ interface IRegistration {
 
 async function getRegistration(
   query: string,
-  status: string,
+  status: string | string[],
   skip: number,
   take: number
 ): Promise<IRegistration[]> {
-  const registrations = await db.registration.findMany({
-    where: {
-      firstname: {
-        contains: query,
-      },
-      status: {
-        contains: status,
-      },
+  const whereClause: any = {
+    firstname: {
+      contains: query,
     },
+  };
+
+  if (Array.isArray(status)) {
+    whereClause.status = {
+      in: status.filter((s) => s !== ""),
+    };
+  } else if (status !== "") {
+    whereClause.status = {
+      contains: status,
+    };
+  }
+
+  const registrations = await db.registration.findMany({
+    where: whereClause,
     orderBy: [
       {
         status: "asc",

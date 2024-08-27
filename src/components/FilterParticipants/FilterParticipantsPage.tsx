@@ -3,6 +3,7 @@
 import { db } from "@/utils/db";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Registration } from "@prisma/client";
 
 // Fetch participants with pagination
 async function getParticipants(page: number, limit: number) {
@@ -34,7 +35,7 @@ export default function FilterParticipantsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [participants, setParticipants] = useState([]);
+  const [participants, setParticipants] = useState<Registration[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 2; // Number of participants per page
