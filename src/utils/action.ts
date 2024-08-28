@@ -7,6 +7,7 @@ import { writeFile } from "fs/promises";
 import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { webStatus } from "./config";
+import { sendMail2 } from "./mail2";
 
 // Create Participant
 // prevState is required. Please do not delete
@@ -114,6 +115,17 @@ export async function updateRegistrationStatus(id: string, status: string) {
       where: { id },
       data: { status },
     });
+    if (status === 'accepted') {
+      const user = await db.registration.findUnique({ where: { id } });
+      if (user?.email) {
+        await sendMail2({
+          to: user.email,
+          subject: "ยืนยันการสมัคร",
+          firstname: user.firstname,
+          lastname: user.lastname
+        });
+      }
+    }
     return { message: `User is ${status}ed`, status: 200 };
   } catch (e) {
     console.error(e);
