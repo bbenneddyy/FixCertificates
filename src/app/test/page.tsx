@@ -1,5 +1,4 @@
 "use client";
-import Certificate from "@/components/certificate/certificate";
 import Downloadcertificate from "@/components/certificate/Downloadcertificate";
 
 import React, { useEffect, useState } from "react";
@@ -39,15 +38,12 @@ const Page = () => {
 
   return (
     <div>
-      <Certificate />
-      {/* <Downloadcertificate/> */}
       <button
         onClick={handleLogout}
         className="text-white bg-red-500 px-4 py-2 rounded"
       >
         Logout
       </button>{" "}
-      {/* Logout button added */}
       user is ${user?.firstname} ${user?.lastname}
       <Downloadcertificate 
         name={user?.firstname || ''} 
