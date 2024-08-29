@@ -2,6 +2,8 @@
 
 import { db } from "./db";
 import { unstable_noStore as noStore } from "next/cache";
+import { ITEMS_PER_PAGE } from "@/constants/invoices";
+
 // Get all participants' data
 export async function getParticipantData() {
   try {
@@ -19,15 +21,16 @@ export async function getParticipantData() {
   }
 }
 
-const ITEMS_PER_PAGE = 2;
-
-export async function fetchInvoicesPages(query: string, currentPage: number) {
+export async function fetchInvoicesPages(
+  query: string,
+  currentPage: number,
+  take: number = ITEMS_PER_PAGE,
+  skip: number = 0
+) {
   noStore();
   try {
-    // Get the total number of entries
     const totalItems = await db.registration.count();
 
-    // Fetch paginated data
     const participantData = await db.registration.findMany({
       skip: (currentPage - 1) * ITEMS_PER_PAGE,
       take: ITEMS_PER_PAGE,
@@ -36,7 +39,6 @@ export async function fetchInvoicesPages(query: string, currentPage: number) {
       },
     });
 
-    // Calculate the total number of pages
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
     return { totalPages, participantData };

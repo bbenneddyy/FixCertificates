@@ -25,12 +25,21 @@ export default function FilterParticipantsControl() {
 
   const handleStatusFilter = (status: string) => {
     const params = new URLSearchParams(searchParams);
-    const statusFilters = params.getAll("status");
+    let statusFilters = params.get("status")?.split(",") || [];
+
     if (statusFilters.includes(status)) {
-      params.delete("status", status);
+      statusFilters = statusFilters.filter((s) => s !== status);
     } else {
-      params.append("status", status);
+      statusFilters.push(status);
     }
+
+    if (statusFilters.length > 0) {
+      params.set("status", statusFilters.join(","));
+    } else {
+      params.delete("status");
+    }
+
+    params.set("page", "1");
     replace(`${pathname}?${params.toString()}`);
   };
 
