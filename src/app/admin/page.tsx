@@ -1,6 +1,9 @@
-import FilterParticipantsControl from "@/components/FilterParticipants/FilterParticipantsControls";
 import FilterParticipantsList from "@/components/FilterParticipants/FilterParticipantList";
+import FilterParticipantsControl from "@/components/FilterParticipants/FilterParticipantsControls";
 import FilterParticipantsPage from "@/components/FilterParticipants/FilterParticipantsPage";
+import { fetchInvoicesPages } from "@/utils/data";
+
+export const dynamic = "force-dynamic";
 
 export default async function Admin({
   searchParams,
@@ -8,31 +11,26 @@ export default async function Admin({
   searchParams?: {
     query?: string;
     status?: string;
-    page?: string; // Add page parameter for pagination
   };
 }) {
   const query = searchParams?.query || "";
   const status = searchParams?.status || "";
-  const page = parseInt(searchParams?.page || "1", 10);
-  const pageSize = 2; // Adjust this value as needed
-  const skip = (page - 1) * pageSize;
+  const currentPage = Number(searchParams?.page) || 1;
+  const { totalPages, participantData } = await fetchInvoicesPages(
+    query,
+    currentPage
+  );
 
   return (
     <div>
       <FilterParticipantsControl />
       <hr className="m-3" />
       <FilterParticipantsList
-        query={query}
-        status={status}
-        skip={skip}
-        take={pageSize}
-      />
-      <FilterParticipantsPage
-        currentPage={page}
-        pageSize={pageSize}
+        participants={participantData}
         query={query}
         status={status}
       />
+      <FilterParticipantsPage totalPages={totalPages} />
     </div>
   );
 }

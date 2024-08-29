@@ -1,115 +1,81 @@
 "use client";
 
-import { db } from "@/utils/db";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Registration } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 
-// Fetch participants with pagination
-async function getParticipants(page: number, limit: number) {
-  try {
-    const skip = (page - 1) * limit;
-    console.log("Fetching participants with:", { skip, limit });
-
-    // Fetch participants with pagination
-    const participants = await db.registration.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        created_at: "desc",
-      },
-    });
-
-    // Fetch the total count of participants
-    const count = await db.registration.count();
-
-    console.log("Fetched participants:", { participants, count });
-    return { participants, count };
-  } catch (e) {
-    console.error("Error fetching participants:", e);
-    return { participants: [], count: 0 };
-  }
-}
-
-export default function FilterParticipantsPage() {
-  const router = useRouter();
+export default async function FilterParticipantsPage({
+  totalPages,
+}: {
+  totalPages: number;
+}) {
   const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const [participants, setParticipants] = useState<Registration[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const limit = 2; // Number of participants per page
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const page = parseInt(searchParams.get("page") || "1", 10);
-        console.log("Fetching data for page:", page);
-
-        const { participants, count } = await getParticipants(page, limit);
-
-        setParticipants(participants);
-        setTotalCount(count);
-        setCurrentPage(page);
-
-        console.log("Fetched data:", { page, participants, count });
-      } catch (error) {
-        console.error("Error in fetchData:", error);
-      }
+  const generatePagination = (currentPage: number, totalPages: number) => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
-    fetchData();
-  }, [searchParams]);
-
-  // Calculate total pages based on total count and limit
-  const totalPages = Math.max(1, Math.ceil(totalCount / limit));
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      const query = searchParams.get("query") || "";
-      const status = searchParams.get("status") || "";
-      console.log(`Navigating to page ${newPage}`);
-      router.push(`/admin?page=${newPage}&query=${query}&status=${status}`);
+    if (currentPage <= 3) {
+      return [1, 2, 3, "...", totalPages - 1, totalPages];
     }
+    if (currentPage >= totalPages - 2) {
+      return [1, 2, "...", totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [
+      1,
+      "...",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "...",
+      totalPages,
+    ];
   };
 
-  console.log("Component state:", {
-    currentPage,
-    totalCount,
-    limit,
-    totalPages,
-    participantsLength: participants.length,
-  });
+  const createPageUrl = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    return `/admin?page=${params.toString()}`;
+  };
+
+  const allPages = generatePagination(currentPage, totalPages);
 
   return (
-    <div>
-      <ul>
-        {participants.map((participant) => (
-          <li key={participant.id}>
-            {participant.firstname} {participant.lastname}
-          </li>
-        ))}
-      </ul>
-      <div className="pagination-controls">
-        <div className="flex justify-center items-center">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage <= 1}
-            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="mx-4">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage >= totalPages}
-            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+    <div className="flex items-center justify-center space-x-6 text-sm">
+      <a
+        href={createPageUrl(Math.max(1, currentPage - 1))}
+        className={`px-2 py-1 rounded ${
+          currentPage === 1
+            ? "text-gray-400 cursor-not-allowed"
+            : "text-blue-500 hover:bg-blue-100"
+        }`}
+      >
+        Previous
+      </a>
+      {allPages.map((page, index) => (
+        <a
+          key={index}
+          href={page === "..." ? "#" : createPageUrl(page)}
+          className={`px-2 py-1 rounded ${
+            page === currentPage
+              ? "bg-blue-500 text-white"
+              : page === "..."
+              ? "text-gray-400 cursor-default"
+              : "text-blue-500 hover:bg-blue-100"
+          }`}
+        >
+          {page}
+        </a>
+      ))}
+      <a
+        href={createPageUrl(Math.min(totalPages, currentPage + 1))}
+        className={`px-2 py-1 rounded ${
+          currentPage === totalPages
+            ? "text-gray-400 cursor-not-allowed"
+            : "text-blue-500 hover:bg-blue-100"
+        }`}
+      >
+        Next
+      </a>
     </div>
   );
 }
