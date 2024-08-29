@@ -34,7 +34,7 @@ export default async function FilterParticipantsPage({
   const createPageUrl = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
-    return `/admin?page=${params.toString()}`;
+    return `/admin?${params.toString()}`;
   };
 
   const allPages = generatePagination(currentPage, totalPages);
