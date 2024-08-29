@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { AcceptedOnlineEmail } from "@/components/Email/AcceptedOnlineEmail";
+import { AcceptedOnsiteEmail } from "@/components/Email/AcceptedOnsiteEmail";
 import { render } from '@react-email/render';
 
 interface ISendMail {
@@ -29,7 +29,7 @@ export async function sendMail2({ to, subject, firstname, lastname }: ISendMail)
   }
 
   try {
-    const emailHtml = render(<AcceptedOnlineEmail firstname={firstname} lastname={lastname} />);
+    const emailHtml = render(<AcceptedOnsiteEmail firstname={firstname} lastname={lastname} />);
     const result = await transport.sendMail({
       from: `MDCU Converse <${SMTP_EMAIL}>`,
       to,
