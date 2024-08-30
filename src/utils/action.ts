@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/utils/db";
-import { LoginFormSchema , editFormSchema, submitFormSchema } from "./schema";
+import { LoginFormSchema, editFormSchema, submitFormSchema } from "./schema";
 import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
@@ -9,6 +9,9 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { webStatus } from "./config";
 import { sendMail2 } from "./mail2";
 import { sendMail3 } from "./mail3";
+import { sendMail4 } from "./mail4";
+import { sendMail5 } from "./mail5";
+
 
 // Create Participant
 // prevState is required. Please do not delete
@@ -24,8 +27,8 @@ export async function createParticipant(
   // Parse data
   // remove dash before phone validation
   var phone = formData.get("phone");
-  var newPhone = phone?.toString().replaceAll("-","");
-  
+  var newPhone = phone?.toString().replaceAll("-", "");
+
   const parse = submitFormSchema.safeParse({
     education: formData.get("education"),
     title: formData.get("title"),
@@ -33,7 +36,7 @@ export async function createParticipant(
     lastname: formData.get("lastname"),
     email: formData.get("email"),
     phone: newPhone,
-    allergy: formData.get("allergy"),    
+    allergy: formData.get("allergy"),
     place: formData.get("place"),
     reason: formData.get("reason") || "",
     slip: formData.get("slip") as File,
@@ -50,7 +53,6 @@ export async function createParticipant(
       status: 500,
     };
   }
-  
 
   const data = parse.data;
   const fileType = data.slip?.type.split("/")[1];
@@ -90,7 +92,7 @@ export async function createParticipant(
       to: `${data.email}`,
       subject: "ยืนยันการส่งข้อมูลเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
       firstname: `${data.firstname}`,
-      lastname: `${data.lastname}`
+      lastname: `${data.lastname}`,
     });
 
     return {
@@ -116,24 +118,24 @@ export async function updateRegistrationStatus(id: string, status: string) {
       where: { id },
       data: { status },
     });
-    if (status === 'accepted') {
+    if (status === "accepted") {
       const user = await db.registration.findUnique({ where: { id } });
       if (user?.email) {
-        if(user.place === 'Online ค่าสมัคร 400 บาท'){
+        if (user.place === "Online ค่าสมัคร 400 บาท") {
           await sendMail2({
             to: user.email,
-            subject: "ยืนยันการสมัคร",
-            firstname: user.firstname,
-            lastname: user.lastname
-          });
-        }
-        else if(user.place === 'Onsite ค่าสมัคร 1000 บาท'){
-          await sendMail3({
-            to: user.email,
-            subject: "ยืนยันการสมัคร",
+            subject:
+              "ยืนยันการสมัครเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
             firstname: user.firstname,
             lastname: user.lastname,
-            
+          });
+        } else if (user.place === "Onsite ค่าสมัคร 1000 บาท") {
+          await sendMail3({
+            to: user.email,
+            subject:
+              "ยืนยันการสมัครเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
+            firstname: user.firstname,
+            lastname: user.lastname,
           });
         }
       }
@@ -235,7 +237,7 @@ export async function UserLogin(
   //const CorrectParticipant = participant.find(participant => participant.phone === data.phone && participant.email === data.email);
 
   if (participant.length === 0) {
-    return { message: "no user with that phone number", status: 400 , user: "" };
+    return { message: "no user with that phone number", status: 400, user: "" };
   }
 
   if (participant.length === 1 && data.email === participant[0].email) {
@@ -247,7 +249,41 @@ export async function UserLogin(
   }
 
   if (participant.length === 1 && data.email !== participant[0].email) {
-    return { message: "wrong email or phone number", status: 400 , user: "" };
+    return { message: "wrong email or phone number", status: 400, user: "" };
   }
-  return { message: "login failed", status: 400 , user: ""  };
+  return { message: "login failed", status: 400, user: "" };
 }
+
+//Sending email 7 days before the event
+export async function sendingLastMail(id:string) {
+  try {
+    const user = await db.registration.findUnique({ where: { id } });
+
+    if (user?.email) {
+      if (user.status === "accepted") {
+        if (user.place === "Online ค่าสมัคร 400 บาท") {
+          await sendMail4({
+            to: user.email,
+            subject: "สำหรับเข้าร่วมงานOnline",
+            firstname: user.firstname,
+            lastname: user.lastname,
+          });
+        } else if (user.place === "Onsite ค่าสมัคร 1000 บาท") {
+          await sendMail5({
+            to: user.email,
+            subject: "สำหรับเข้าร่วมงานOnsite",
+            firstname: user.firstname,
+            lastname: user.lastname,
+          });
+        }
+      }
+    }
+
+    return { message: `Mail is sending to paticipants.`, status: 200 };
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+
