@@ -8,6 +8,7 @@ import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { webStatus } from "./config";
 import { sendMail2 } from "./mail2";
+import { sendMail3 } from "./mail3";
 
 // Create Participant
 // prevState is required. Please do not delete
@@ -118,12 +119,22 @@ export async function updateRegistrationStatus(id: string, status: string) {
     if (status === 'accepted') {
       const user = await db.registration.findUnique({ where: { id } });
       if (user?.email) {
-        await sendMail2({
-          to: user.email,
-          subject: "ยืนยันการสมัคร",
-          firstname: user.firstname,
-          lastname: user.lastname
-        });
+        if(user.place === 'Online ค่าสมัคร 400 บาท'){
+          await sendMail2({
+            to: user.email,
+            subject: "ยืนยันการสมัคร",
+            firstname: user.firstname,
+            lastname: user.lastname
+          });
+        }
+        else if(user.place === 'Onsite ค่าสมัคร 1000 บาท'){
+          await sendMail3({
+            to: user.email,
+            subject: "ยืนยันการสมัคร",
+            firstname: user.firstname,
+            lastname: user.lastname
+          });
+        }
       }
     }
     return { message: `User is ${status}ed`, status: 200 };
