@@ -255,12 +255,12 @@ export async function UserLogin(
 }
 
 //Sending email 7 days before the event
-export async function sendingLastMail(id:string) {
+export async function sendingLastMail(status: string) {
   try {
-    const user = await db.registration.findUnique({ where: { id } });
+    const users = await db.registration.findMany({ where: { status: status } }); // Ensure filtering by status from Registration model
 
-    if (user?.email) {
-      if (user.status === "accepted") {
+    for (const user of users) {
+      if (user.email) {
         if (user.place === "Online ค่าสมัคร 400 บาท") {
           await sendMail4({
             to: user.email,
@@ -279,11 +279,9 @@ export async function sendingLastMail(id:string) {
       }
     }
 
-    return { message: `Mail is sending to paticipants.`, status: 200 };
+    return { message: `Mail is sending to participants.`, status: 200 };
   } catch (e) {
     console.error(e);
     return null;
   }
 }
-
-
