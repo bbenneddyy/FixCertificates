@@ -50,7 +50,7 @@ const Page = () => {
             </button> {/* Logout button added */}
           </div>
           <Slider />
-          <div className="flex justify-center bg-cyan-950">
+          <div className="flex justify-center bg-cyan-950 relative z-10">
             <Downloadcertificate 
               name={user.firstname} 
               lastname={user.lastname} 

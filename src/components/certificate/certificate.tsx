@@ -17,8 +17,8 @@ const Certificate = ({
       // Check if current is not null
       html2canvas(certificateRef.current).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("l", "mm", [1000, 670]);
-        pdf.addImage(imgData, "PNG", 0, 0, 1000, 667);
+        const pdf = new jsPDF("l", "mm", [4000, 2821]);
+        pdf.addImage(imgData, "PNG", 0, 0, 4000, 2821);
         pdf.save(`${name}_${lastname}_certificate.pdf`);
       });
     } else {
@@ -33,10 +33,10 @@ const Certificate = ({
         className="relative bg-gray-800 h-screen flex items-center justify-center text-white overflow-auto"
       >
         <Image
-          src="/images/Certificatetemplate.png"
+          src="/images/Certificatetemplate2.png"
           alt="placeholder"
           layout="fill"
-          objectFit="cover"
+          objectFit="contain" // Change to contain to maintain aspect ratio
           className="absolute inset-0 z-0"
         />
         <p className="relative z-10 text-blue-500 text-5xl font-bold italic my-4">
