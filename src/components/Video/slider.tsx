@@ -22,7 +22,7 @@ export default function Slider() {
   return (
     <>
       <div>
-        <div className="flex items-center justify-center h-screen bg-cyan-950">
+        <div className="flex items-center justify-center h-[80vh] bg-cyan-950">
           <Swiper
             ref={swiperRef} // Attach the ref to Swiper
             initialSlide={1} // Set the initial slide to the first item

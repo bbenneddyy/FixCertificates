@@ -2,19 +2,20 @@
 import React, { useEffect, useState } from "react";
 import Slider from "@/components/Video/slider";
 import Cookies from 'js-cookie'; // Import js-cookie
+import Downloadcertificate from "@/components/certificate/Downloadcertificate"; // Import Downloadcertificate
+
 type User = {
-
   firstname: string;
-
   lastname: string;
 };
+
 const Page = () => {
   const [user, setUser] = useState<User | null>(null);
   const handleLogout = () => {
-
     Cookies.remove('user'); // Remove the user cookie
     setUser(null); // Clear the user state
   };
+
   useEffect(() => {
     // Check for user cookie
     const userCookie = Cookies.get('user'); // Get the user cookie
@@ -35,10 +36,9 @@ const Page = () => {
       fetchUser();
     }
   }, []);
-  
 
   return (
-    <div>
+    <div >
       {user?.firstname && user?.lastname ? (
         <>
           <div className="flex flex-col items-center justify-center h-12 bg-cyan-950">
@@ -48,9 +48,14 @@ const Page = () => {
             <button onClick={handleLogout} className="text-white bg-red-500 px-4 py-2 rounded">
               Logout
             </button> {/* Logout button added */}
-         
           </div>
           <Slider />
+          <div className="flex justify-center bg-cyan-950">
+            <Downloadcertificate 
+              name={user.firstname} 
+              lastname={user.lastname} 
+            />
+          </div>
         </>
       ) : (
         <div className="flex flex-col items-center justify-center h-screen bg-cyan-950">
