@@ -6,10 +6,11 @@ interface ISendMail {
   to: string;
   subject: string;
   firstname: string;
-  lastname: string
+  lastname: string;
+  
 }
 
-export async function sendMail3({ to, subject, firstname, lastname }: ISendMail) {
+export async function sendMail3({ to, subject, firstname, lastname}: ISendMail) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
   const transport = nodemailer.createTransport({
     service: "gmail",

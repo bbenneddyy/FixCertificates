@@ -132,7 +132,8 @@ export async function updateRegistrationStatus(id: string, status: string) {
             to: user.email,
             subject: "ยืนยันการสมัคร",
             firstname: user.firstname,
-            lastname: user.lastname
+            lastname: user.lastname,
+            
           });
         }
       }
