@@ -9,8 +9,8 @@ const sarabun = Sarabun({
 })
 
 export const metadata: Metadata = {
-  title: "เสวนาค่ายอยากเป็นหมอ",
-  description: "รายละเอียด",
+  title: "เสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34",
+  description: "งานที่คลายข้อสงสัย เจาะลึกประสบการณ์ในการเรียนแพทย์ จากอาจารย์และรุ่นพี่คณะแพทยศาสตร์ จุฬาฯ",
 };
 
 export default function RootLayout({

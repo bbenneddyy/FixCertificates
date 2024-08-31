@@ -100,7 +100,7 @@ export async function createParticipant(
       return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้", status: 400 };
     }
     return {
-      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+      message: "สมัครไม่สำเร็จ storage missing?",
       status: 400,
     };
   }
@@ -173,15 +173,8 @@ export async function UserLogin(
   formData: FormData
 ) {
   interface IRegistration {
-    id: string;
-    education: string;
-    title: string;
-    firstname: string;
-    lastname: string;
     email: string;
     phone: string;
-    reason: string | null;
-    status: string;
   }
 
   const parse = LoginFormSchema.safeParse({

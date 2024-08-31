@@ -27,10 +27,17 @@ export default function UserLoginForm(){
   const navigate = useNavigate(); // Initialize useNavigate
   const [state, formAction] = useFormState(UserLogin, prevState);
   if (state?.status === 200) {
-    localStorage.setItem('user', JSON.stringify(state.user)); // Store user data
-    navigate('/testpage');
-    window.location.reload() // Redirect to /VideoPlaylist
-    return null; // Prevent rendering anything else
+    fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: state.user }),
+    }).then(() => {
+        navigate('/VideoPlaylist');
+        window.location.reload();
+    });
+    return null;
 }
     return (
       

@@ -1,5 +1,5 @@
+import React, { Suspense } from 'react'; // Import Suspense from React
 import { db } from "@/utils/db";
-import { Suspense } from "react";
 import Image from "next/image";
 import UpdateStatusButtons from "@/components/Buttons/UpdateStatusButtons";
 import LoadingEdit from "../../../components/LoadingSkeletons/LoadingEdit";
@@ -86,7 +86,7 @@ export default async function ApprovePage({
             <div className="flex justify-center">
               {registeredUser.id && (
                 <Image
-                  src={`/assets/${registeredUser.id}.${registeredUser.file_type}`}
+                  src={`/api/images/${registeredUser.id}.${registeredUser.file_type}`}
                   alt="slip"
                   className="rounded-md shadow-md"
                   width={250}

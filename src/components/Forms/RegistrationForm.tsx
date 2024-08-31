@@ -2,7 +2,7 @@
 
 import { createParticipant } from "@/utils/action";
 import { PhotoIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -32,6 +32,7 @@ export default function RegistrationForm() {
   const [state, formAction] = useFormState(createParticipant, initialState);
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
   const [preview, setPreview] = useState<string | undefined>();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function RegistrationForm() {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedImage]);
+
   const currentTime = new Date().toISOString();
 
   const EducationOptions = [
@@ -94,6 +96,12 @@ export default function RegistrationForm() {
       boxShadow: "none",
     }),
   };
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (!confirm("กรุณาตรวจสอบความถูกต้องของข้อมูลเนื่องจากหลังส่งข้อมูลแล้ว จะไม่สามารถเปลี่ยนแปลงข้อมูลได้")) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       {state?.status === 200 ? (
@@ -119,7 +127,7 @@ export default function RegistrationForm() {
           </div>
         </div>
       ) : (
-        <form className="flex-col space-y-10 mx-auto py-9" action={formAction}>
+        <form className="flex-col space-y-10 mx-auto py-9" onSubmit={onSubmit} action={formAction}>
           <div className="flex flex-col items-center space-y-3 rounded-lg shadow-sm">
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base font-bold leading-7 text-gray-900">
