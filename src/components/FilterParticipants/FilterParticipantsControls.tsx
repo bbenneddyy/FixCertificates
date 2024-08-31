@@ -25,7 +25,7 @@ export default function FilterParticipantsControl() {
 
   const handleStatusFilter = (status: string) => {
     const params = new URLSearchParams(searchParams);
-    let statusFilters = params.get("status")?.split(",") || [];
+    let statusFilters = params.getAll("status");
 
     if (statusFilters.includes(status)) {
       statusFilters = statusFilters.filter((s) => s !== status);
@@ -33,55 +33,35 @@ export default function FilterParticipantsControl() {
       statusFilters.push(status);
     }
 
-    if (statusFilters.length > 0) {
-      params.set("status", statusFilters.join(","));
-    } else {
-      params.delete("status");
-    }
+    params.delete("status");
+    statusFilters.forEach((s) => params.append("status", s));
 
     params.set("page", "1");
     replace(`${pathname}?${params.toString()}`);
   };
 
+  const statusFilters = searchParams.getAll("status");
+
   return (
     <div className="flex items-center m-5 space-x-6">
       <div className="flex space-x-3">
-        <div className="relative flex gap-x-3">
-          <div className="flex h-6 items-center">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
-              onChange={() => handleStatusFilter("accepted")}
-            />
+        {["accepted", "rejected", "pending"].map((status) => (
+          <div key={status} className="relative flex gap-x-3">
+            <div className="flex h-6 items-center">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
+                onChange={() => handleStatusFilter(status)}
+                checked={statusFilters.includes(status)}
+              />
+            </div>
+            <div className="text-sm leading-6">
+              <label className="font-medium text-gray-900">
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </label>
+            </div>
           </div>
-          <div className="text-sm leading-6">
-            <label className="font-medium text-gray-900">Accepted</label>
-          </div>
-        </div>
-        <div className="relative flex gap-x-3">
-          <div className="flex h-6 items-center">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
-              onChange={() => handleStatusFilter("rejected")}
-            />
-          </div>
-          <div className="text-sm leading-6">
-            <label className="font-medium text-gray-900">Rejected</label>
-          </div>
-        </div>
-        <div className="relative flex gap-x-3">
-          <div className="flex h-6 items-center">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
-              onChange={() => handleStatusFilter("pending")}
-            />
-          </div>
-          <div className="text-sm leading-6">
-            <label className="font-medium text-gray-900">Pending</label>
-          </div>
-        </div>
+        ))}
       </div>
       <div>
         <label htmlFor="search" className="sr-only">
