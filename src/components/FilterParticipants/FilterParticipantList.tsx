@@ -11,6 +11,7 @@ interface IRegistration {
     phone: string;
     reason: string | null;
     status: string;
+    place: string;
 }
 
 async function getRegistration(): Promise<IRegistration[]> {
@@ -24,12 +25,12 @@ async function getRegistration(): Promise<IRegistration[]> {
     return registrations;
 }
 
-export default async function FilterParticipantsList({ query, status }: { query: string, status: string }) {
+export default async function FilterParticipantsList({ query, status, place }: { query: string, status: string, place: string }) {
     const participants = await getRegistration()
     const searchedParticipants = Array.isArray(participants) ? participants.filter((participant) => {
         return participant.firstname.toLowerCase().includes(query.toLowerCase());
     }) : [];
-    const searchAndFiltered = searchedParticipants.filter((participant) => { return participant.status.includes(status); })
+    const searchAndFiltered = searchedParticipants.filter((participant) => { return participant.status.includes(status) && participant.place.toLowerCase().includes(place); })
     return (
         <div>
             {Array.isArray(participants) && participants.length === 0 && (
