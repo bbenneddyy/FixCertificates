@@ -6,7 +6,9 @@ import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { webStatus } from "./config";
+import { webStatus, maximumOnsiteParticipants } from "./config";
+import { getNumberOnsiteParticipants } from "@/utils/data";
+
 
 // Create Participant
 // prevState is required. Please do not delete
@@ -48,7 +50,13 @@ export async function createParticipant(
       status: 500,
     };
   }
-  
+  //validate number of onsite participants should not exceed maximumOnsiteParticipants
+  if (formData.get("place")?.toString().includes("Onsite")){
+    const numberOnsiteParticipants = await getNumberOnsiteParticipants();
+    if (numberOnsiteParticipants? numberOnsiteParticipants>= maximumOnsiteParticipants:0) {
+      return { message: "จำนวนผู้สมัคร Onsite ครบจำนวนแล้ว", status: 400 };
+    }  
+  }
 
   const data = parse.data;
   const fileType = data.slip?.type.split("/")[1];
