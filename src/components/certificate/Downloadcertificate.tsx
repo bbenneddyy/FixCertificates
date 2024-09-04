@@ -12,9 +12,8 @@ export default function Downloadcertificate({
 }) {
     const [isOpenModal, setIsOpenModal] = useState(false)
   const handleDownloadCertificate = () =>{
-    alert("downloaded certificate")
+    alert("downloading certificate")
     if (name && lastname) {
-        alert('going well')
         setIsOpenModal(true)
       } else {
         alert('huh?')

@@ -51,10 +51,12 @@ const Page = () => {
           </div>
           <Slider />
           <div className="flex justify-center bg-cyan-950 relative z-10">
-            <Downloadcertificate 
-              name={user.firstname} 
-              lastname={user.lastname} 
-            />
+            <div className="mb-4 bg-cyan-950 p-2">
+              <Downloadcertificate 
+                name={user.firstname} 
+                lastname={user.lastname} 
+              />
+            </div>
           </div>
         </>
       ) : (
