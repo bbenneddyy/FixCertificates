@@ -32,13 +32,20 @@ model Registration {
   status     String     @default("pending")
   created_at DateTime   @default(now())
   file_type  String?
+  question1  String?
+  question2  String?
+  question3  String?
+  question4  String?
+  question5  String?
+  question6  String?
 }
 
 model Question {
   id            Int          @id @default(autoincrement())
-  participant   Registration @relation(fields: [participantId], references: [id])
+  participant   Registration @relation(fields: participantId, references: id)
   participantId String
   sessionNum    Int
   question      String
   created_at    DateTime     @default(now())
 }
+

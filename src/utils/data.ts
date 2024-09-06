@@ -17,6 +17,12 @@ export async function getParticipantData() {
         phone: true,
         education: true,
         reason: true,
+        question1: true,
+        question2: true,
+        question3: true,
+        question4: true,
+        question5: true,
+        question6: true,
       },
     });
     return participantData;
