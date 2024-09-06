@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -27,8 +24,9 @@ model Registration {
   lastname   String
   email      String     @unique
   phone      String
+  allergy    String?
+  place      String
   reason     String?
-  questions  Question[]
   status     String     @default("pending")
   created_at DateTime   @default(now())
   file_type  String?
@@ -38,6 +36,8 @@ model Registration {
   question4  String?
   question5  String?
   question6  String?
+  questions  Question[]
+
 }
 
 model Question {
@@ -47,5 +47,6 @@ model Question {
   sessionNum    Int
   question      String
   created_at    DateTime     @default(now())
+  participant   Registration @relation(fields: [participantId], references: [id])
 }
 
