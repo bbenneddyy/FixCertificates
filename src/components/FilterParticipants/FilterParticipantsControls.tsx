@@ -2,23 +2,28 @@
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import GetCSVButton from "../Buttons/GetCSVButton";
+import SendMailButton from "../Buttons/SendMailButton";
+
 
 export default function FilterParticipantsControl() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("query") || "");
+  const [statusFilters, setStatusFilters] = useState<string[]>(
+    searchParams.getAll("status")
+  );
+  const [placeFilters, setPlaceFilters] = useState<string[]>(searchParams.getAll("place"));
 
-    const [searchTerm, setSearchTerm] = useState(searchParams.get("query") || "");
-    const [statusFilters, setStatusFilters] = useState<string[]>(searchParams.getAll("status"));
-    const [placeFilters, setPlaceFilters] = useState<string[]>(searchParams.getAll("place"));
+  
 
-    useEffect(() => {
-        setSearchTerm(searchParams.get("query") || "");
-        setStatusFilters(searchParams.getAll("status"));
-        setPlaceFilters(searchParams.getAll("place"));
+  useEffect(() => {
+    setSearchTerm(searchParams.get("query") || "");
+    setStatusFilters(searchParams.getAll("status"));
+    setPlaceFilters(searchParams.getAll("place"));
+  }, [searchParams]);
 
-    }, [searchParams]);
 
   const handleSearch = (searchTerm: string) => {
     const params = new URLSearchParams(searchParams);
@@ -27,7 +32,9 @@ export default function FilterParticipantsControl() {
     } else {
       params.set("query", "");
     }
+
     params.set("page", "1");
+
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -63,6 +70,7 @@ export default function FilterParticipantsControl() {
     };
 
   return (
+
     <div className="flex items-center m-5 space-x-6">
       <div className="flex space-x-3">
         {["accepted", "rejected", "pending"].map((status) => (
@@ -74,6 +82,7 @@ export default function FilterParticipantsControl() {
                 checked={statusFilters.includes(status)}
                 onChange={() => handleStatusFilter(status)}
               />
+
             </div>
 
             <div className="text-sm leading-6">
@@ -138,6 +147,8 @@ export default function FilterParticipantsControl() {
         </div>
       </div>
       <GetCSVButton />
+      <SendMailButton />
+
     </div>
   );
 }

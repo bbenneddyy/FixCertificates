@@ -10,7 +10,9 @@ import {
 } from "@react-email/components";
 
 interface IConfirmationEmailProps {
-  name: string
+  firstname: string
+  lastname: string
+  
 }
 
 const baseUrl = process.env.NEXTAUTH_URL
@@ -31,7 +33,7 @@ export function ConfirmationEmail(props: IConfirmationEmailProps) {
             height="50"
             style={logo}
           />
-          <Text style={paragraph}>เรียน คุณ{props.name}</Text>
+          <Text style={paragraph}>เรียน คุณ {props.firstname} {props.lastname} </Text>
           <Text style={paragraph}>
             ทางนิสิตผู้จัดงานขอขอบคุณที่ท่านได้สมัครเข้าร่วมงานเสวนาเปิดรั้วหมอจุฬาฯ ครั้งที่ 34 ประจำปีการศึกษา 2567 โดยทางทีมงาน ขอความร่วมมือกรุณารออีเมลยืนยันการตรวจสอบหลักฐานการชำระเงิน และจะส่งอีเมลยืนยันไปให้ท่านอีกครั้งหนึ่ง
           </Text>

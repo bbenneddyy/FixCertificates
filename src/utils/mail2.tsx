@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { ConfirmationEmail } from "@/components/Email/ConfirmationEmail";
+import { AcceptedOnlineEmail } from "@/components/Email/AcceptedOnlineEmail";
 import { render } from '@react-email/render';
 
 interface ISendMail {
@@ -9,7 +9,7 @@ interface ISendMail {
   lastname: string
 }
 
-export async function sendMail({ to, subject, firstname, lastname }: ISendMail) {
+export async function sendMail2({ to, subject, firstname, lastname }: ISendMail) {
   const { SMTP_EMAIL, SMTP_PASSWORD } = process.env;
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -29,7 +29,7 @@ export async function sendMail({ to, subject, firstname, lastname }: ISendMail) 
   }
 
   try {
-    const emailHtml = render(<ConfirmationEmail firstname={firstname} lastname={lastname} />);
+    const emailHtml = render(<AcceptedOnlineEmail firstname={firstname} lastname={lastname} />);
     const result = await transport.sendMail({
       from: `MDCU Converse <${SMTP_EMAIL}>`,
       to,
