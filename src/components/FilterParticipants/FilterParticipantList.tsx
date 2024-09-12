@@ -55,21 +55,36 @@ export default async function FilterParticipantsList({
   take,
 }: {
   query: string;
-  status: string;
+  status: string[];
   skip: number;
   take: number;
 }) {
+  // Fetch paginated participants based on query, status, skip, and take
   const participants = await getRegistration(query, status, skip, take);
+
+  // Filter participants based on search query and status
+  const searchedParticipants = Array.isArray(participants)
+    ? participants.filter((participant) =>
+        participant.firstname.toLowerCase().includes(query.toLowerCase())
+      )
+    : [];
+
+  const searchAndFiltered =
+    status.length > 0
+      ? searchedParticipants.filter((participant) =>
+          status.includes(participant.status)
+        )
+      : searchedParticipants;
 
   return (
     <div className="mt-2">
-      {participants.length === 0 ? (
+      {searchAndFiltered.length === 0 ? (
         <p className="w-1/2 mx-auto rounded-md p-2 bg-slate-100">
           No Participants
         </p>
       ) : (
         <div className="space-y-2">
-          {participants.map((participant) => (
+          {searchAndFiltered.map((participant) => (
             <Link
               href={`/admin/${participant.id}`}
               key={participant.id}
