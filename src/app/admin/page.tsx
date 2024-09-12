@@ -9,15 +9,17 @@ export default async function Admin({
   searchParams?: {
     query?: string;
     status?: string;
+    place?: string;
   };
 }) {
   const query = searchParams?.query || "";
   const status = searchParams?.status || "";
+  const place = searchParams?.place || "";
   return (
     <div>
       <FilterParticipantsControl />
       <hr className="m-3" />
-      <FilterParticipantsList query={query} status={status} />
+      <FilterParticipantsList query={query} status={status} place={place} />
     </div>
   );
 }
