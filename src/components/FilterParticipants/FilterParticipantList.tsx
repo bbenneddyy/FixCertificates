@@ -2,40 +2,95 @@ import { db } from "@/utils/db";
 import Link from "next/link";
 
 interface IRegistration {
-    id: string;
-    education: string;
-    title: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    phone: string;
-    reason: string | null;
-    status: string;
-    place: string;
+
+  id: string;
+  education: string;
+  title: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  reason: string | null;
+  status: string;
+  place: string;
+
 }
 
-async function getRegistration(): Promise<IRegistration[]> {
-    const registrations = await db.registration.findMany({
-        orderBy: [
-            {
-                status: "asc",
-            },
-        ],
-    });
-    return registrations;
+async function getRegistration(
+  query: string,
+  status: string | string[],
+  skip: number,
+  take: number
+): Promise<IRegistration[]> {
+  const whereClause: any = {
+    firstname: {
+      contains: query,
+    },
+  };
+
+  if (Array.isArray(status)) {
+    whereClause.status = {
+      in: status.filter((s) => s !== ""),
+    };
+  } else if (status !== "") {
+    whereClause.status = {
+      contains: status,
+    };
+  }
+
+  const registrations = await db.registration.findMany({
+    where: whereClause,
+    orderBy: [
+      {
+        status: "asc",
+      },
+    ],
+    skip,
+    take,
+  });
+  return registrations;
 }
 
-export default async function FilterParticipantsList({ query, status, place }: { query: string, status: string, place: string }) {
-    const participants = await getRegistration()
+
+export default async function FilterParticipantsList({
+  query,
+  status,
+  skip,
+  take,
+  place
+}: {
+  query: string;
+  status: string[];
+  skip: number;
+  take: number;
+  place: string 
+}) {
+  // Fetch paginated participants based on query, status, skip, and take
+  const participants = await getRegistration(query, status, skip, take);
+
+  // Filter participants based on search query and status
     const searchedParticipants = Array.isArray(participants) ? participants.filter((participant) => {
         return participant.firstname.toLowerCase().includes(query.toLowerCase());
     }) : [];
-    const searchAndFiltered = searchedParticipants.filter((participant) => { return participant.status.includes(status) && participant.place.toLowerCase().includes(place); })
-    return (
+
+  const searchAndFiltered =
+    status.length > 0
+      ? searchedParticipants.filter((participant) =>
+          { return participant.status.includes(status) && participant.place.toLowerCase().includes(place); })
+
+  return (
+    <div className="mt-2">
+      {searchAndFiltered.length === 0 ? (
+        <p className="w-1/2 mx-auto rounded-md p-2 bg-slate-100">
+          No Participants
+        </p>
+      ) : (
         <div>
             {Array.isArray(participants) && participants.length === 0 && (
                 <p className="w-1/2 m-2 border-2 mx-auto rounded-md p-2 bg-slate-100">No Participants</p>
             )}
+          
+          
             <div>
                 {Array.isArray(participants) && searchAndFiltered.map((participant) => (
                     <Link
@@ -48,9 +103,10 @@ export default async function FilterParticipantsList({ query, status, place }: {
                             <p>{participant.firstname}</p>
                             <p className={`ml-4 font-bold ${participant.status === 'accepted' ? 'text-green-500' : participant.status === 'rejected' ? 'text-red-700' : 'text-gray-500'}`}>{participant.status}</p>
                         </div>
-                    </Link>
+                    </Link>       
                 ))}
             </div>
+
+ 
         </div>
-    )
-}
+      )}

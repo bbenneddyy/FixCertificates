@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'; // Import Suspense from React
 import { db } from "@/utils/db";
 import Image from "next/image";
 import UpdateStatusButtons from "@/components/Buttons/UpdateStatusButtons";
+import LoadingEdit from "../../../components/LoadingSkeletons/LoadingEdit";
 
 export const dynamic = "force-dynamic";
 
@@ -63,7 +64,7 @@ export default async function ApprovePage({
   }
   return (
     <div>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<LoadingEdit />}>
         <div className="flex justify-center items-start min-h-screen bg-gray-100 pt-16">
           <div className="w-full max-w-md m-4 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
             <div className="text-center mb-4">
