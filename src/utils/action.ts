@@ -35,12 +35,12 @@ export async function createParticipant(
     place: formData.get("place"),
     reason: formData.get("reason") || "",
     slip: formData.get("slip") as File,
-    sessionOne: formData.get("sessionOne"),
-    sessionTwo: formData.get("sessionTwo"),
-    sessionThree: formData.get("sessionThree"),
-    sessionFour: formData.get("sessionFour"),
-    sessionFive: formData.get("sessionFive"),
-    sessionSix: formData.get("sessionSix"),
+    sessionOne: formData.get("sessionOne") || "",
+    sessionTwo: formData.get("sessionTwo")  || "",
+    sessionThree: formData.get("sessionThree")  || "",
+    sessionFour: formData.get("sessionFour")  || "",
+    sessionFive: formData.get("sessionFive")  || "",
+    sessionSix: formData.get("sessionSix")  || "",
   });
   if (!parse.success) {
     return {
@@ -66,6 +66,12 @@ export async function createParticipant(
         place: data.place,
         reason: data.reason,
         file_type: fileType,
+        question1: data.sessionOne,
+        question2: data.sessionTwo,
+        question3: data.sessionThree,
+        question4: data.sessionFour,
+        question5: data.sessionFive,
+        question6: data.sessionSix,
         questions: {
           create: [
             { sessionNum: 1, question: data.sessionOne || "" },
@@ -107,12 +113,11 @@ export async function createParticipant(
 }
 
 // Update registration status
-export async function updateRegistrationStatus(id: string, status: string) {
+export async function updateRegistrationStatus(id: string , status: string) {
   try {
     await db.registration.update({
       where: { id },
-      data: { status },
-    });
+      data: { status }, })
     return { message: `User is ${status}ed`, status: 200 };
   } catch (e) {
     console.error(e);

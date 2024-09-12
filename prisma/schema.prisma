@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -40,9 +41,11 @@ model Registration {
 
 model Question {
   id            Int          @id @default(autoincrement())
+  participant   Registration @relation(fields: participantId, references: id)
   participantId String
   sessionNum    Int
   question      String
   created_at    DateTime     @default(now())
   participant   Registration @relation(fields: [participantId], references: [id])
 }
+
