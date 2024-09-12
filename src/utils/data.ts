@@ -59,3 +59,20 @@ export async function fetchInvoicesPages(
     throw new Error("Failed to fetch total number of invoices.");
   }
 }
+
+export async function getNumberOnsiteParticipants() {
+  try{
+    const numberOnsite = await db.registration.count({
+      where: {
+        place: {
+          startsWith: 'Onsite'
+        }
+      }
+    });
+    console.log(`Number of Onsite participants': ${numberOnsite}`);
+    return numberOnsite;
+  } catch (e){
+    console.error(e);
+  }
+
+}

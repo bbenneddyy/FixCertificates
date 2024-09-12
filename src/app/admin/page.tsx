@@ -13,10 +13,13 @@ export default async function Admin({
     query?: string;
     status?: string;
     page?: string;
+    place?: string;
+
   };
 }) {
   const query = searchParams?.query || "";
   const status = searchParams?.status || "";
+
   const currentPage = Number(searchParams?.page) || 1;
   const skip = (currentPage - 1) * ITEMS_PER_PAGE;
   const { totalPages, participantData } = await fetchInvoicesPages(
@@ -25,11 +28,12 @@ export default async function Admin({
     ITEMS_PER_PAGE,
     skip
   );
-
+  const place = searchParams?.place || "";
   return (
     <div>
       <FilterParticipantsControl />
       <hr className="m-3" />
+
       <FilterParticipantsList
         participants={participantData}
         query={query}
@@ -38,6 +42,9 @@ export default async function Admin({
         take={ITEMS_PER_PAGE}
       />
       <FilterParticipantsPage totalPages={totalPages} />
+
+      <FilterParticipantsList query={query} status={status} place={place} />
+
     </div>
   );
 }

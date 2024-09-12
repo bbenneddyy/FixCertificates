@@ -2,3 +2,5 @@
 export const webStatus = "open";
 
 // export const webStatus = process.env.WEB_STATUS;
+
+export const maximumOnsiteParticipants = 400;
