@@ -6,8 +6,6 @@ import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-
-import { webStatus } from "./config";
 import { sendMail2 } from "./mail2";
 import { sendMail3 } from "./mail3";
 import { sendMail4 } from "./mail4";

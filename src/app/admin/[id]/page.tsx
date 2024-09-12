@@ -6,7 +6,27 @@ import LoadingEdit from "../../../components/LoadingSkeletons/LoadingEdit";
 
 export const dynamic = "force-dynamic";
 
-async function getRegisteredUser(id: string) {
+interface IAnswer {
+  id: string;
+  sessionNum: number;
+  question: string;
+  participantId: string;
+}
+
+interface IRegisteredUser {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  education: string;
+  status: string;
+  allergy?: string;
+  place: string;
+  reason?: string;
+  file_type?: string;
+}
+
+async function getRegisteredUser(id: string): Promise<IRegisteredUser | null> {
   try {
     const registeredUser = await db.registration.findUnique({
       where: {
@@ -19,7 +39,7 @@ async function getRegisteredUser(id: string) {
   }
 }
 
-async function getUserAnswers(id: string) {
+async function getUserAnswers(id: string): Promise<IAnswer[]> {
   try {
     const answers = await db.question.findMany({
       where: {
@@ -123,7 +143,7 @@ export default async function ApprovePage({
                 {userAnswers.length === 0 ? (
                   <p>ไม่มีคำถาม</p>
                 ) : (
-                  userAnswers.map((answer) => (
+                  userAnswers.map((answer: IAnswer) => (
                     <div key={answer.id} className="mb-4">
                       <p className="mb-1">
                         <strong>

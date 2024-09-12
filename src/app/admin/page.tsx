@@ -14,12 +14,10 @@ export default async function Admin({
     status?: string;
     page?: string;
     place?: string;
-
   };
 }) {
   const query = searchParams?.query || "";
-  const status = searchParams?.status || "";
-
+  const status = searchParams?.status ? searchParams.status.split(",") : [];
   const currentPage = Number(searchParams?.page) || 1;
   const skip = (currentPage - 1) * ITEMS_PER_PAGE;
   const { totalPages, participantData } = await fetchInvoicesPages(
@@ -29,6 +27,7 @@ export default async function Admin({
     skip
   );
   const place = searchParams?.place || "";
+
   return (
     <div>
       <FilterParticipantsControl />
@@ -40,11 +39,12 @@ export default async function Admin({
         status={status}
         skip={skip}
         take={ITEMS_PER_PAGE}
+        place={place}
       />
       <FilterParticipantsPage totalPages={totalPages} />
-
-      <FilterParticipantsList query={query} status={status} place={place} />
 
     </div>
   );
 }
+//<FilterParticipantsList query={query} status={status} place={place} />
+
