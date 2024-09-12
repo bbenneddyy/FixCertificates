@@ -6,11 +6,16 @@ import { sendMail } from "./mail";
 import { writeFile } from "fs/promises";
 import path from "path";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+
 import { webStatus } from "./config";
 import { sendMail2 } from "./mail2";
 import { sendMail3 } from "./mail3";
 import { sendMail4 } from "./mail4";
 import { sendMail5 } from "./mail5";
+
+import { webStatus, maximumOnsiteParticipants } from "./config";
+import { getNumberOnsiteParticipants } from "@/utils/data";
+
 
 
 // Create Participant
@@ -40,12 +45,12 @@ export async function createParticipant(
     place: formData.get("place"),
     reason: formData.get("reason") || "",
     slip: formData.get("slip") as File,
-    sessionOne: formData.get("sessionOne"),
-    sessionTwo: formData.get("sessionTwo"),
-    sessionThree: formData.get("sessionThree"),
-    sessionFour: formData.get("sessionFour"),
-    sessionFive: formData.get("sessionFive"),
-    sessionSix: formData.get("sessionSix"),
+    sessionOne: formData.get("sessionOne") || "",
+    sessionTwo: formData.get("sessionTwo")  || "",
+    sessionThree: formData.get("sessionThree")  || "",
+    sessionFour: formData.get("sessionFour")  || "",
+    sessionFive: formData.get("sessionFive")  || "",
+    sessionSix: formData.get("sessionSix")  || "",
   });
   if (!parse.success) {
     return {
@@ -53,6 +58,15 @@ export async function createParticipant(
       status: 500,
     };
   }
+
+  //validate number of onsite participants should not exceed maximumOnsiteParticipants
+  if (formData.get("place")?.toString().includes("Onsite")){
+    const numberOnsiteParticipants = await getNumberOnsiteParticipants();
+    if (numberOnsiteParticipants? numberOnsiteParticipants>= maximumOnsiteParticipants:0) {
+      return { message: "จำนวนผู้สมัคร Onsite ครบจำนวนแล้ว", status: 400 };
+    }  
+  }
+
 
   const data = parse.data;
   const fileType = data.slip?.type.split("/")[1];
@@ -70,6 +84,12 @@ export async function createParticipant(
         place: data.place,
         reason: data.reason,
         file_type: fileType,
+        question1: data.sessionOne,
+        question2: data.sessionTwo,
+        question3: data.sessionThree,
+        question4: data.sessionFour,
+        question5: data.sessionFive,
+        question6: data.sessionSix,
         questions: {
           create: [
             { sessionNum: 1, question: data.sessionOne || "" },
@@ -105,17 +125,18 @@ export async function createParticipant(
       return { message: "ไม่สามารถใช้ข้อมูลซ้ำได้", status: 400 };
     }
     return {
-      message: "สมัครไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+      message: "สมัครไม่สำเร็จ storage missing?",
       status: 400,
     };
   }
 }
 
 // Update registration status
-export async function updateRegistrationStatus(id: string, status: string) {
+export async function updateRegistrationStatus(id: string , status: string) {
   try {
     await db.registration.update({
       where: { id },
+
       data: { status },
     });
     if (status === "accepted") {
@@ -140,6 +161,7 @@ export async function updateRegistrationStatus(id: string, status: string) {
         }
       }
     }
+    
     return { message: `User is ${status}ed`, status: 200 };
   } catch (e) {
     console.error(e);

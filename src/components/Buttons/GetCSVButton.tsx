@@ -7,6 +7,15 @@ interface ParticipantData {
   firstname: string;
   lastname: string;
   email: string;
+  phone: string;
+  education: string;
+  reason: string | null;
+  question1 : string | null;
+  question2 : string | null;
+  question3 : string | null;
+  question4 : string | null;
+  question5 : string | null;
+  question6 : string | null;
 }
 
 export default function GetCSVButton() {
@@ -14,7 +23,7 @@ export default function GetCSVButton() {
   function jsonToCsv(jsonData: ParticipantData[]): string {
     let csv = '';
     // Get the headers
-    const headers: (keyof ParticipantData)[] = ['title', 'firstname', 'lastname', 'email'];
+    const headers: (keyof ParticipantData)[] = ['title', 'firstname', 'lastname','education', 'email', 'phone', 'reason', 'question1', 'question2', 'question3', 'question4', 'question5', 'question6'];
     csv += headers.join(',') + '\n';
     // Add the data
     jsonData.forEach(function (row: ParticipantData) {

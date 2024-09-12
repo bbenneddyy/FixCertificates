@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -16,27 +17,35 @@ model User {
 }
 
 model Registration {
-  id         String     @id @default(cuid())
-  education  String
-  title      String
-  firstname  String
-  lastname   String
-  email      String     @unique
-  phone      String
-  allergy    String?
-  place      String
-  reason     String?
-  status     String     @default("pending")
-  created_at DateTime   @default(now())
-  file_type  String?
-  questions  Question[]
+  id           String     @id @default(cuid())
+  education    String
+  title        String
+  firstname    String
+  lastname     String
+  email        String     @unique
+  phone        String
+  allergy      String?
+  place        String
+  reason       String?
+  status       String     @default("pending")
+  created_at   DateTime   @default(now())
+  file_type    String?
+  sessionOne   String?
+  sessionTwo   String?
+  sessionThree String?
+  sessionFour  String?
+  sessionFive  String?
+  sessionSix   String?
+  questions    Question[]
 }
 
 model Question {
   id            Int          @id @default(autoincrement())
+  participant   Registration @relation(fields: participantId, references: id)
   participantId String
   sessionNum    Int
   question      String
   created_at    DateTime     @default(now())
   participant   Registration @relation(fields: [participantId], references: [id])
 }
+

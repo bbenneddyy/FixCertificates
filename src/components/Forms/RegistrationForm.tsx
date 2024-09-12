@@ -6,6 +6,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Select from "react-select";
+import { StylesConfig, ControlProps } from "react-select";
 
 const initialState = {
   message: "",
@@ -34,11 +36,11 @@ export default function RegistrationForm() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !state.message) return;
+    if (typeof window === "undefined" || !state.message) return;
     const scrollToError = () => {
       const errorStateText = document.getElementById("state");
       if (!errorStateText) return;
-      errorStateText.scrollIntoView({ behavior: 'smooth' });
+      errorStateText.scrollIntoView({ behavior: "smooth" });
     };
     window.requestAnimationFrame(scrollToError);
   }, [state.message]);
@@ -61,6 +63,39 @@ export default function RegistrationForm() {
   }, [selectedImage]);
 
   const currentTime = new Date().toISOString();
+
+  const EducationOptions = [
+    { value: "มัธยมศึกษาตอนต้น", label: "มัธยมศึกษาตอนต้น" },
+    { value: "มัธยมศึกษาปีที่ 4", label: "มัธยมศึกษาปีที่ 4" },
+    { value: "มัธยมศึกษาปีที่ 5", label: "มัธยมศึกษาปีที่ 5" },
+    { value: "มัธยมศึกษาปีที่ 6", label: "มัธยมศึกษาปีที่ 6" },
+    { value: "ผู้ปกครอง", label: "ผู้ปกครอง" },
+    { value: "อื่น ๆ", label: "อื่น ๆ" },
+  ];
+
+  const TitleOptions = [
+    { value: "นาย", label: "นาย" },
+    { value: "นาง", label: "นาง" },
+    { value: "นางสาว", label: "นางสาว" },
+    { value: "ด.ช.", label: "ด.ช." },
+    { value: "ด.ญ.", label: "ด.ญ." },
+  ];
+
+  const PlaceOptions = [
+    { value: "Onsite", label: "Onsite ค่าสมัคร 1000 บาท" },
+    { value: "Online", label: "Online ค่าสมัคร 400 บาท" },
+  ];
+
+  const style: StylesConfig<{ value: string; label: string }, false> = {
+    control: (
+      base,
+      state: ControlProps<{ value: string; label: string }, false>
+    ) => ({
+      ...base,
+      border: 0,
+      boxShadow: "none",
+    }),
+  };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     if (!confirm("กรุณาตรวจสอบความถูกต้องของข้อมูลเนื่องจากหลังส่งข้อมูลแล้ว จะไม่สามารถเปลี่ยนแปลงข้อมูลได้")) {
@@ -107,19 +142,13 @@ export default function RegistrationForm() {
                     ระดับชั้นการศึกษา
                   </label>
                   <div className="mt-2">
-                    <select
+                    <Select
                       id="education"
                       name="education"
-                      autoComplete="education-level"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      <option>มัธยมศึกษาตอนต้น</option>
-                      <option>มัธยมศึกษาปีที่ 4</option>
-                      <option>มัธยมศึกษาปีที่ 5</option>
-                      <option>มัธยมศึกษาปีที่ 6</option>
-                      <option>ผู้ปกครอง</option>
-                      <option>อื่น ๆ</option>
-                    </select>
+                      options={EducationOptions}
+                      styles={style}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6 "
+                    />
                   </div>
                 </div>
                 <div className="sm:col-span-3">
@@ -130,18 +159,13 @@ export default function RegistrationForm() {
                     คำนำหน้าชื่อตามบัตรประชาชน
                   </label>
                   <div className="mt-2">
-                    <select
+                    <Select
                       id="title"
                       name="title"
-                      autoComplete="title-name"
+                      options={TitleOptions}
+                      styles={style}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      <option>นาย</option>
-                      <option>นาง</option>
-                      <option>นางสาว</option>
-                      <option>ด.ช.</option>
-                      <option>ด.ญ.</option>
-                    </select>
+                    />
                   </div>
                 </div>
                 <div className="sm:col-span-3">
@@ -185,7 +209,9 @@ export default function RegistrationForm() {
                   >
                     อีเมล
                   </label>
-                  <p className="block text-sm font-medium leading-6 text-gray-500">ห้ามใช้อีเมลซ้ำระหว่างผู้เข้าร่วมงาน</p>
+                  <p className="block text-sm font-medium leading-6 text-gray-500">
+                    ห้ามใช้อีเมลซ้ำระหว่างผู้เข้าร่วมงาน
+                  </p>
                   <div className="mt-2">
                     <input
                       id="email"
@@ -204,7 +230,9 @@ export default function RegistrationForm() {
                   >
                     หมายเลขโทรศัพท์
                   </label>
-                  <p className="block text-sm font-medium leading-6 text-gray-500">ตัวเลขเท่านั้น</p>
+                  <p className="block text-sm font-medium leading-6 text-gray-500">
+                    ตัวเลขเท่านั้น
+                  </p>
                   <div className="mt-2">
                     <input
                       id="phone"
@@ -237,18 +265,16 @@ export default function RegistrationForm() {
                     htmlFor="place"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                  ประเภทการสมัคร
+                    ประเภทการสมัคร
                   </label>
                   <div className="mt-2">
-                    <select
+                    <Select
                       id="place"
                       name="place"
-                      autoComplete="place-level"
+                      options={PlaceOptions}
+                      styles={style}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      <option>Onsite ค่าสมัคร 1000 บาท</option>
-                      <option>Online ค่าสมัคร 400 บาท</option>
-                    </select>
+                    />
                   </div>
                 </div>
                 <div className="col-span-full">
@@ -414,7 +440,9 @@ export default function RegistrationForm() {
                 </div>
                 <SubmitButton />
               </div>
-              <p id="state" className="text-center text-red-500">{state?.message}</p>
+              <p id="state" className="text-center text-red-500">
+                {state?.message}
+              </p>
             </div>
           </div>
         </form>
