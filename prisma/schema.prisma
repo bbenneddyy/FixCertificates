@@ -36,6 +36,12 @@ model Registration {
   sessionFour  String?
   sessionFive  String?
   sessionSix   String?
+  question1    String?
+  question2    String?
+  question3    String?
+  question4    String?
+  question5    String?
+  question6    String?
   questions    Question[]
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import SignOutButton from "../Buttons/SignOutButton";
+import GetCSVButton from "../Buttons/GetCSVButton";
 
 export default function AdminNavbar() {
   return (
@@ -17,6 +18,9 @@ export default function AdminNavbar() {
         </h1>
       </Link>
       <ul className="flex text-center space-x-6">
+        <li>
+          <GetCSVButton />
+        </li>
         <li>
           <Link
             href="/admin"

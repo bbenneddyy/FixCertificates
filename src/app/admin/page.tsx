@@ -1,3 +1,4 @@
+import GetCSVButton from "@/components/Buttons/GetCSVButton";
 import FilterParticipantsList from "@/components/FilterParticipants/FilterParticipantList";
 import FilterParticipantsControl from "@/components/FilterParticipants/FilterParticipantsControls";
 import FilterParticipantsPage from "@/components/FilterParticipants/FilterParticipantsPage";
@@ -42,7 +43,6 @@ export default async function Admin({
         place={place}
       />
       <FilterParticipantsPage totalPages={totalPages} />
-
     </div>
   );
 }
