@@ -9,6 +9,11 @@ export default function Home() {
           Go to Tryout
         </button>
       </Link>
+      <Link href="/certy">
+        <button className="rounded-md bg-pink-200 border border-black px-4 py-2 text-black font-bold hover:bg-pink-300">
+          Go to Certy
+        </button>
+      </Link>
     </div>
   );
 }
