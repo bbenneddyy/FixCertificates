@@ -1,5 +1,5 @@
 "use client"
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from '@cantoo/pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 
 export default function Print({
@@ -17,7 +17,7 @@ export default function Print({
         //ถ้าเปลี่ยน font ต้องไปปรับค่า y บนบรรทัด 52
         const fontUrl = '/fonts/Charm-Bold.ttf';
         const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
-        const openSansFont = await pdfDoc.embedFont(fontBytes); // Embed the TTF font
+        const openSansFont = await pdfDoc.embedFont(fontBytes, { subset: true }); // Embed the TTF font
 
         const jpgImage = await pdfDoc.embedJpg(jpgImageBytes);
         const jpgDims = jpgImage.scale(0.5); // Scale the image
@@ -32,42 +32,17 @@ export default function Print({
         const fullName = `${name} ${lastname}`; // Concatenate name and lastname
 
         const fontSize = 40; // Font size
-        let xPosition = (jpgDims.width - openSansFont.widthOfTextAtSize(fullName, fontSize)) / 2;
-        const yPosition = (jpgDims.height - openSansFont.heightAtSize(fontSize)) / 2;
+        const textWidth = openSansFont.widthOfTextAtSize(fullName, fontSize);
+        const xPosition = (jpgDims.width - textWidth) / 2;
+        const yPosition = jpgDims.height / 2 + fontSize / 2;
 
-        // Define sets for characters that need to be moved
-        // พวกสระกับวรรณยุกต์มันซ้อนกันไม่ต้องตกใจ อย่าลบบบบบ!!!
-        const moveUpChars = new Set('ัํี๊้็่๋ิฺื์');
-        const moveDownChars = new Set('ุู');
-        const moveDownAfterChars = new Set('ฎฏฐ');
-
-        // Draw the text in the center of the page
-        let previousChar = '';
-        for (const char of fullName) {
-          const charWidth = openSansFont.widthOfTextAtSize(char, fontSize);
-          let adjustedYPosition = yPosition + 40;
-
-          // Check if the current character should be moved up
-          if (moveUpChars.has(char) && moveUpChars.has(previousChar)) {
-              adjustedYPosition += 15; // Move up
-          }
-
-          // Check if the current character should be moved down
-          if (moveDownChars.has(char) && moveDownAfterChars.has(previousChar)) {
-              adjustedYPosition -= 10; // Move down
-          }
-
-          page.drawText(char, {
+          page.drawText(fullName, {
               x: xPosition,
-              y: adjustedYPosition,
+              y: yPosition,
               size: fontSize,
               font: openSansFont,
               color: rgb(0, 0, 0),
           });
-          // Update x position and previous character
-          xPosition += charWidth;
-          previousChar = char;
-      }
 
         const pdfBytes = await pdfDoc.save();
         const pdfUrl = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
